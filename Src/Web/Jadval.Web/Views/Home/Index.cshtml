@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="divBody">
+
+</div>
+
+@section Scripts{
+    <script>
+      fetch("/Jadval/Get")
+        .then((response) => response.json())
+        .then((json) =>
+                Load(json)
+        );
+    </script>
+
+}
