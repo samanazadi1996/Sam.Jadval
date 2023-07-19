@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Jadval.Application.Interfaces.Repositories
@@ -13,8 +11,4 @@ namespace Jadval.Application.Interfaces.Repositories
         void Update(T entity);
         void Delete(T entity);
     }
-    public interface IJadvalRepository : IGenericRepository<Jadval.Domain.Jadval.Entities.Jadval>
-    {
-    }
-
 }

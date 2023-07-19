@@ -1,15 +1,15 @@
-﻿using Jadval.Domain.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Jadval.Domain.Common;
 
-namespace Jadval.Domain.Jadval.Entities
+namespace Jadval.Domain.Crosswords.Entities
 {
-    public class Jadval : AuditableBaseEntity
+    public class Crossword : AuditableBaseEntity
     {
-        private Jadval()
+        private Crossword()
         {
 
         }
-        public Jadval(List<List<string>> data)
+        public Crossword(List<List<string>> data)
         {
             SetData(data);
         }
@@ -41,6 +41,6 @@ namespace Jadval.Domain.Jadval.Entities
         }
 
         public string Data { get; set; }
-        public List<JadvalQuestion> Questions { get; set; }
+        public List<CrosswordQuestion> Questions { get; set; }
     }
 }

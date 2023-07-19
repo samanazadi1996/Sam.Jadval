@@ -56,7 +56,7 @@ namespace Jadval.Web.Controllers
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, true, false);
 
                 if (result.Succeeded)
-                    return Redirect("/Home");
+                    return Redirect("/Crossword");
             }
 
             return View(model);

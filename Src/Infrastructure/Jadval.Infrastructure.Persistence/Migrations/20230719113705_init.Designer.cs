@@ -4,14 +4,16 @@ using Jadval.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Jadval.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230719113705_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,47 @@ namespace Jadval.Infrastructure.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.Crossword", b =>
+            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestion", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<long?>("CrosswordId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CrosswordId");
+
+                    b.ToTable("CrosswordQuestions");
+                });
+
+            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestionValue", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<long?>("CrosswordQuestionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CrosswordQuestionId");
+
+                    b.ToTable("CrosswordQuestionValues");
+                });
+
+            modelBuilder.Entity("Jadval.Domain.Jadval.Entities.Crossword", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,49 +86,6 @@ namespace Jadval.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Crosswords");
-                });
-
-            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestion", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
-
-                    b.Property<long>("CrosswordId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CrosswordId");
-
-                    b.ToTable("CrosswordQuestions");
-                });
-
-            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestionValue", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
-
-                    b.Property<long>("CrosswordQuestionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Position")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Question")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CrosswordQuestionId");
-
-                    b.ToTable("CrosswordQuestionValues");
                 });
 
             modelBuilder.Entity("Jadval.Domain.OutBoxEventItems.Entities.OutBoxEventItem", b =>
@@ -127,34 +126,26 @@ namespace Jadval.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestion", b =>
                 {
-                    b.HasOne("Jadval.Domain.Crosswords.Entities.Crossword", "Crossword")
+                    b.HasOne("Jadval.Domain.Jadval.Entities.Crossword", null)
                         .WithMany("Questions")
-                        .HasForeignKey("CrosswordId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Crossword");
+                        .HasForeignKey("CrosswordId");
                 });
 
             modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestionValue", b =>
                 {
-                    b.HasOne("Jadval.Domain.Crosswords.Entities.CrosswordQuestion", "CrosswordQuestion")
+                    b.HasOne("Jadval.Domain.Crosswords.Entities.CrosswordQuestion", null)
                         .WithMany("Value")
-                        .HasForeignKey("CrosswordQuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CrosswordQuestion");
-                });
-
-            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.Crossword", b =>
-                {
-                    b.Navigation("Questions");
+                        .HasForeignKey("CrosswordQuestionId");
                 });
 
             modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestion", b =>
                 {
                     b.Navigation("Value");
+                });
+
+            modelBuilder.Entity("Jadval.Domain.Jadval.Entities.Crossword", b =>
+                {
+                    b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618
         }

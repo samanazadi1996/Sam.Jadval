@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Jadval.Domain.Crosswords.Entities;
+
 namespace Jadval.Infrastructure.Persistence.Contexts
 {
     public class ApplicationDbContext : DbContext
@@ -19,9 +21,9 @@ namespace Jadval.Infrastructure.Persistence.Contexts
         }
 
         public DbSet<OutBoxEventItem> OutBoxEventItems { get; set; }
-        public DbSet<Domain.Jadval.Entities.Jadval> Jadvals{ get; set; }
-        public DbSet<Domain.Jadval.Entities.JadvalQuestion> JadvalQuestions{ get; set; }
-        public DbSet<Domain.Jadval.Entities.JadvalQuestionValue> JadvalQuestionValues{ get; set; }
+        public DbSet<Crossword> Crosswords { get; set; }
+        public DbSet<CrosswordQuestion> CrosswordQuestions { get; set; }
+        public DbSet<CrosswordQuestionValue> CrosswordQuestionValues { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

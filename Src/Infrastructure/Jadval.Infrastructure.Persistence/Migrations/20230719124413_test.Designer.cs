@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Jadval.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230719095605_addJadvalEntities")]
-    partial class addJadvalEntities
+    [Migration("20230719124413_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Jadval.Infrastructure.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("Jadval.Domain.Jadval.Entities.Jadval", b =>
+            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.Crossword", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,34 +45,37 @@ namespace Jadval.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Jadvals");
+                    b.ToTable("Crosswords");
                 });
 
-            modelBuilder.Entity("Jadval.Domain.Jadval.Entities.JadvalQuestion", b =>
+            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestion", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
 
-                    b.Property<long?>("JadvalId")
+                    b.Property<long>("CrosswordId")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JadvalId");
+                    b.HasIndex("CrosswordId");
 
-                    b.ToTable("JadvalQuestions");
+                    b.ToTable("CrosswordQuestions");
                 });
 
-            modelBuilder.Entity("Jadval.Domain.Jadval.Entities.JadvalQuestionValue", b =>
+            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestionValue", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
 
-                    b.Property<long?>("JadvalQuestionId")
+                    b.Property<long>("CrosswordQuestionId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Position")
@@ -83,9 +86,9 @@ namespace Jadval.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JadvalQuestionId");
+                    b.HasIndex("CrosswordQuestionId");
 
-                    b.ToTable("JadvalQuestionValues");
+                    b.ToTable("CrosswordQuestionValues");
                 });
 
             modelBuilder.Entity("Jadval.Domain.OutBoxEventItems.Entities.OutBoxEventItem", b =>
@@ -124,26 +127,34 @@ namespace Jadval.Infrastructure.Persistence.Migrations
                     b.ToTable("OutBoxEventItems");
                 });
 
-            modelBuilder.Entity("Jadval.Domain.Jadval.Entities.JadvalQuestion", b =>
+            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestion", b =>
                 {
-                    b.HasOne("Jadval.Domain.Jadval.Entities.Jadval", null)
+                    b.HasOne("Jadval.Domain.Crosswords.Entities.Crossword", "Crossword")
                         .WithMany("Questions")
-                        .HasForeignKey("JadvalId");
+                        .HasForeignKey("CrosswordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Crossword");
                 });
 
-            modelBuilder.Entity("Jadval.Domain.Jadval.Entities.JadvalQuestionValue", b =>
+            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestionValue", b =>
                 {
-                    b.HasOne("Jadval.Domain.Jadval.Entities.JadvalQuestion", null)
+                    b.HasOne("Jadval.Domain.Crosswords.Entities.CrosswordQuestion", "CrosswordQuestion")
                         .WithMany("Value")
-                        .HasForeignKey("JadvalQuestionId");
+                        .HasForeignKey("CrosswordQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CrosswordQuestion");
                 });
 
-            modelBuilder.Entity("Jadval.Domain.Jadval.Entities.Jadval", b =>
+            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.Crossword", b =>
                 {
                     b.Navigation("Questions");
                 });
 
-            modelBuilder.Entity("Jadval.Domain.Jadval.Entities.JadvalQuestion", b =>
+            modelBuilder.Entity("Jadval.Domain.Crosswords.Entities.CrosswordQuestion", b =>
                 {
                     b.Navigation("Value");
                 });

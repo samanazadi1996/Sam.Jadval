@@ -1,0 +1,14 @@
+﻿@model Jadval.Application.Wrappers.PagedResponse<bool>
+    
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@foreach (var item in Model.Data)
+{
+    <a asp-action="Play" asp-route-level="0">0 </a>
+}
+
+@section Scripts{
+
+}
