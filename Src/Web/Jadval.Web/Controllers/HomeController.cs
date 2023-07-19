@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace Jadval.Web.Controllers
 {
 
-    public class HomeController : BaseApiController
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 

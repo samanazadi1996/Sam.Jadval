@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Jadval.Application.Features.Jadvals.Commands.CreateJadval;
 using Jadval.Web.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Jadval.Web.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class JadvalController : ControllerBase
+    public class JadvalController : BaseController
     {
         [HttpPost("Check")]
         public List<CheckModelResult> Check(CheckModel model)
@@ -21,33 +24,35 @@ namespace Jadval.Web.Controllers
                 {
                     col = item.col,
                     row = item.row,
-                    result = temp.data[item.row][item.col] == item.value
+                    result = temp.Data[item.row][item.col] == item.value
                 });
             }
 
             return result;
         }
         [HttpGet("get")]
-        public BaseModel GetLevel(int level)
+        public async Task<CreateJadvalCommand> GetLevel(int level)
         {
             var rnd = new Random();
             var model = GetModel();
+            await Mediator.Send(model);
+
             for (int i = 0; i < 200; i++)
             {
 
-                var row = rnd.Next(model.data.Count);
-                var col = rnd.Next(model.data.First().Count);
+                var row = rnd.Next(model.Data.Count);
+                var col = rnd.Next(model.Data.First().Count);
 
-                var row2 = rnd.Next(model.data.Count);
-                var col2 = rnd.Next(model.data.First().Count);
+                var row2 = rnd.Next(model.Data.Count);
+                var col2 = rnd.Next(model.Data.First().Count);
 
-                if (!IsNum(model.data[row][col]) && !IsNum(model.data[row2][col2]))
+                if (!IsNum(model.Data[row][col]) && !IsNum(model.Data[row2][col2]))
                 {
-                    var temp = model.data[row][col];
+                    var temp = model.Data[row][col];
 
-                    model.data[row][col] = model.data[row2][col2];
+                    model.Data[row][col] = model.Data[row2][col2];
 
-                    model.data[row2][col2] = temp;
+                    model.Data[row2][col2] = temp;
 
                 }
 
@@ -59,49 +64,49 @@ namespace Jadval.Web.Controllers
                 return "123456789".Contains(str);
             }
         }
-        private BaseModel GetModel()
+        private CreateJadvalCommand GetModel()
         {
-            var model = new BaseModel();
-            model.data = new List<List<string>>();
-            model.questions = new List<Question>();
+            var model = new CreateJadvalCommand();
+            model.Data = new List<List<string>>();
+            model.Questions = new List<Question>();
 
-            model.data.Add(new List<string> { "م", "1", "2", "ف" });
-            model.data.Add(new List<string> { "ذ", "ف", "ا", "ن" });
-            model.data.Add(new List<string> { "ک", "ر", "ک", "3" });
-            model.data.Add(new List<string> { "ی", "ع", "س", "4" });
+            model.Data.Add(new List<string> { "م", "1", "2", "ف" });
+            model.Data.Add(new List<string> { "ذ", "ف", "ا", "ن" });
+            model.Data.Add(new List<string> { "ک", "ر", "ک", "3" });
+            model.Data.Add(new List<string> { "ی", "ع", "س", "4" });
 
-            model.questions.Add(new Question
+            model.Questions.Add(new Question
             {
-                id = 1,
-                value = new List<Value>()
+                Id = 1,
+                Value = new List<Value>()
                 {
                     new Value("پاکیزهتر","left_bottom"),
                     new Value("غیر اصل","bottom")
                 }
             });
 
-            model.questions.Add(new Question
+            model.Questions.Add(new Question
             {
-                id = 2,
-                value = new List<Value>()
+                Id = 2,
+                Value = new List<Value>()
                 {
                     new Value("شگرد","right_bottom"),
                     new Value("قرص روانگردان","bottom")
                 }
             });
-            model.questions.Add(new Question
+            model.Questions.Add(new Question
             {
-                id = 3,
-                value = new List<Value>()
+                Id = 3,
+                Value = new List<Value>()
                 {
                     new Value("نفوذ کننده","top_left"),
                     new Value("پشم نرم","left")
                 }
             });
-            model.questions.Add(new Question
+            model.Questions.Add(new Question
             {
-                id = 4,
-                value = new List<Value>()
+                Id = 4,
+                Value = new List<Value>()
                 {
                     new Value("تلاش","left")
                 }

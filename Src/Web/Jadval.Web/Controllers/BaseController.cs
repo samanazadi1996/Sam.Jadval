@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Jadval.Web.Controllers
 {
-    public abstract class BaseApiController : Controller
+    public abstract class BaseController : Controller
     {
         private IMediator _mediator;
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();

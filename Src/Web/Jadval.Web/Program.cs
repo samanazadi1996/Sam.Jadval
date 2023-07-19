@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Jadval.Infrastructure.Identity.Contexts;
 using Jadval.Infrastructure.Identity.Models;
 using Microsoft.EntityFrameworkCore;
+using Jadval.Infrastructure.Persistence.Contexts;
 
 namespace Jadval.Web
 {
@@ -25,6 +26,7 @@ namespace Jadval.Web
                 var services = scope.ServiceProvider;
 
                 services.GetRequiredService<IdentityContext>().Database.Migrate();
+                services.GetRequiredService<ApplicationDbContext>().Database.Migrate();
 
                 var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();

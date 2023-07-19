@@ -13,4 +13,8 @@ namespace Jadval.Application.Interfaces.Repositories
         void Update(T entity);
         void Delete(T entity);
     }
+    public interface IJadvalRepository : IGenericRepository<Jadval.Domain.Jadval.Entities.Jadval>
+    {
+    }
+
 }

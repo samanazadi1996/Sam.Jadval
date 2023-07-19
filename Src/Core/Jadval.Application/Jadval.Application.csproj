@@ -12,7 +12,7 @@
 
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Features\" />
+	  <ProjectReference Include="..\Jadval.Domain\Jadval.Domain.csproj" />
 	</ItemGroup>
 
 </Project>

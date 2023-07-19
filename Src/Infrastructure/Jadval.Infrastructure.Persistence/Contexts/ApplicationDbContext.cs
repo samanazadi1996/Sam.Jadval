@@ -19,6 +19,9 @@ namespace Jadval.Infrastructure.Persistence.Contexts
         }
 
         public DbSet<OutBoxEventItem> OutBoxEventItems { get; set; }
+        public DbSet<Domain.Jadval.Entities.Jadval> Jadvals{ get; set; }
+        public DbSet<Domain.Jadval.Entities.JadvalQuestion> JadvalQuestions{ get; set; }
+        public DbSet<Domain.Jadval.Entities.JadvalQuestionValue> JadvalQuestionValues{ get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
