@@ -12,7 +12,6 @@
 
 	<ItemGroup>
     <ProjectReference Include="..\..\Core\Jadval.Application\Jadval.Application.csproj" />
-    <ProjectReference Include="..\..\Core\Jadval.Domain\Jadval.Domain.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Jadval.Infrastructure.Identity\Jadval.Infrastructure.Identity.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Jadval.Infrastructure.Persistence\Jadval.Infrastructure.Persistence.csproj" />
   </ItemGroup>

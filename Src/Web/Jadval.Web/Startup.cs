@@ -14,6 +14,7 @@ using TSPStore.Infrastructure.Identity;
 using Jadval.Application.Interfaces;
 using Jadval.Web.Infrastracture.Services;
 using Jadval.Infrastructure.Persistence;
+using Jadval.Web.Infrastracture.Middlewares;
 
 namespace Jadval.Web
 {
@@ -62,8 +63,9 @@ namespace Jadval.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
