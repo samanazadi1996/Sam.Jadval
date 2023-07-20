@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "لیست مراحل بازی";
+}
+<div class="row match-height">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title">لیست مراحل بازی</h6>
+            </div>
+            <div class="card-body" id="ListBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function load() {
+        fetch('@Url.Action("_Index", "Crossword")' + location.search)
+            .then((response) => response.text())
+            .then((text) =>
+                $("#ListBody").html(text)
+            );
+    }
+    load();
+
+</script>

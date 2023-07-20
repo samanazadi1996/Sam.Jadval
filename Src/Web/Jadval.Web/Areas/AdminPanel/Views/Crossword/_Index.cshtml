@@ -1,0 +1,30 @@
+﻿@using Jadval.Application.Features.Crosswords.Queries.GetPagedListCrossword
+@model PagentaionResult<GetPagedListCrosswordQuery, PagedResponse<bool>>
+
+<div class="table-responsive mb-0" data-pattern="priority-columns">
+    <table id="tech-companies-1" class="table table-striped culture-font">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Result.Data)
+            {
+                <tr>
+                    <td>#</td>
+                    <td>@item</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<div class="col-md-12 form-group pt-2">
+    @Html.PagedListPager(Model.Result, PageNumber => Url.Action("Index", new
+    {
+        PageNumber
+    }))
+</div>
