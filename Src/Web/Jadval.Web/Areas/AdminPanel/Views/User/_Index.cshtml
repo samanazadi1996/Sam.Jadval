@@ -1,0 +1,46 @@
+﻿@using Jadval.Application.DTOs.Account.Requests
+@using Jadval.Application.DTOs.Account.Responses
+@model PagentaionResult<GetAllUsersRequest, PagedResponse<UserDto>>
+
+<div class="table-responsive mb-0" data-pattern="priority-columns">
+    <table id="tech-companies-1" class="table table-striped culture-font">
+        <thead>
+            <tr>
+                <th data-priority="1">#</th>
+                <td>UserName</td>
+                <td>Name</td>
+                <td>Coins</td>
+                <td>Level</td>
+                <td>PhoneNumber</td>
+                <td>Email</td>
+                <td>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Result.Data)
+            {
+                <tr>
+                    <td>#</td>
+                    <td>@item.UserName</td>
+                    <td>@item.Name</td>
+                    <td>@item.Coins</td>
+                    <td>@item.Level</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.Email</td>
+                    <td>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<div class="col-md-12 form-group pt-2">
+    @Html.PagedListPager(Model.Result, PageNumber => Url.Action("Index", new
+    {
+        PageNumber,
+        Model.Query.Name,
+    }))
+</div>

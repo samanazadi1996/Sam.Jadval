@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Jadval.Application\Jadval.Application.csproj" />
     <ProjectReference Include="..\..\Core\Jadval.Domain\Jadval.Domain.csproj" />
   </ItemGroup>
 

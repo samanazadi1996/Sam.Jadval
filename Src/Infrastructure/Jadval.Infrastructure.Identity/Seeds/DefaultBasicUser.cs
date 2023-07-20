@@ -14,9 +14,8 @@ namespace Jadval.Infrastructure.Identity.Seeds
             {
                 UserName = "Admin",
                 Email = "Admin@Admin.com",
-                FirstName = "Saman",
+                Name = "Saman",
                 PhoneNumber = "09304241296",
-                LastName = "Azadi",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
             };

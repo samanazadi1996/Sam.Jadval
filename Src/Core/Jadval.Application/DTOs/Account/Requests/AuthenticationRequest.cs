@@ -21,4 +21,5 @@ namespace Jadval.Application.DTOs.Account.Requests
                 .Matches(JadvalRegex.Password);
         }
     }
+
 }

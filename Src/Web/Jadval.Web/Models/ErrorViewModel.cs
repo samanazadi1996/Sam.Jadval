@@ -8,4 +8,5 @@ namespace Jadval.Web.Models
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
+
 }
