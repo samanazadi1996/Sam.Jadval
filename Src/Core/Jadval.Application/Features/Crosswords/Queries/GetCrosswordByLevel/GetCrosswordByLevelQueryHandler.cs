@@ -5,15 +5,12 @@ using Jadval.Domain.Crosswords.Dtos;
 using MediatR;
 using System;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Jadval.Application.Features.Crosswords.Queries.GetCrosswordByLevel
 {
-    public class GetCrosswordByLevelQuery : IRequest<Result<CrosswordDto>>
-    {
-        public int Level { get; set; } = 0;
-    }
 
     public class GetCrosswordByLevelQueryHandler : IRequestHandler<GetCrosswordByLevelQuery, Result<CrosswordDto>>
     {
@@ -29,11 +26,10 @@ namespace Jadval.Application.Features.Crosswords.Queries.GetCrosswordByLevel
 
         public async Task<Result<CrosswordDto>> Handle(GetCrosswordByLevelQuery request, CancellationToken cancellationToken)
         {
-            var storeId = authenticatedUser.UserId;
-            var result = await crosswordRepository.GetByLevel(request.Level);
-
-            var rnd = new Random()
-                ;
+            var userId = authenticatedUser.UserId;
+            var crossword = await crosswordRepository.GetByLevel(request.Level);
+            var result = JsonSerializer.Deserialize<CrosswordDto>(crossword.Content);
+            var rnd = new Random();
             for (int i = 0; i < 200; i++)
             {
 

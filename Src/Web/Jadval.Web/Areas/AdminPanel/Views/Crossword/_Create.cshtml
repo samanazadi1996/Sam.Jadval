@@ -6,20 +6,29 @@
 </div>
 <div class="modal-body row">
 
-    <div class="col-md-6 row">
-        <div class="col-6">
-            <input type="number" value="4" id="CrosswordRow" class="form-control" onchange="CreateModel()" />
+    <div class="col-md-6">
+        <div class="col-md-12 form-group">
+            <h4>سطر و ستون جدول</h4>
+            <table>
+                <tr>
+                    <td>
+                        <input type="number" value="4" id="CrosswordRow" class="form-control" onchange="CreateModel()" />
+                    </td>
+                    <td>
+                        <input type="number" value="4" id="CrosswordCol" class="form-control" onchange="CreateModel()" />
+                    </td>
+                </tr>
+            </table>
         </div>
-        <div class="col-6">
-            <input type="number" value="4" id="CrosswordCol" class="form-control" onchange="CreateModel()" />
-        </div>
-        <div class="col-md-12">
+
+        <div class="col-md-12 form-group">
+            <h4>پرسش ها</h4>
             <table id="tableQuestions" class="w-100" style="direction:rtl">
             </table>
-            <button onclick="AddQuestion()">جدید</button>
+            <button onclick="AddQuestion()" class="btn btn-sm btn-block btn-success">جدید</button>
         </div>
     </div>
-    <div class="col-md-6 table-responsive" style="overflow:scroll" id="bodyCrossword"></div>
+    <div class="col-md-6 table-responsive" style="overflow: scroll;direction: ltr;" id="bodyCrossword"></div>
 </div>
 <div class="modal-footer d-block">
     <button type="button" class="btn btn-secondary waves-effect w-md" data-dismiss="modal">بستن</button>
@@ -38,8 +47,9 @@
         return temp;
     };
     const IsNumber = (char) => {
-        if (char) return "123456789".includes(char);
-        return false;
+        char = char.trim()
+        if (char == "") return false;
+        return !isNaN(Number(char));
     };
     function CreateQuestions() {
         var temp = []
@@ -79,28 +89,31 @@
         var tdQuestion = CreateAndAppend("td", tr)
         var tdPos = CreateAndAppend("td", tr)
 
-        var closebtn = CreateAndAppend("span", tdClose, null, "X")
+        var closebtn = CreateAndAppend("span", tdClose, "btn btn-icon btn-sm btn-red", "X")
         var inputId = CreateAndAppend("input", tdId, "w-100")
         inputId.setAttribute("type", "number")
         inputId.value = "0"
         var inputQuestion = CreateAndAppend("input", tdQuestion, "w-100")
         var inputPos = CreateAndAppend("select", tdPos)
-        CreateAndAppend("option", inputPos, null, "left")
-        CreateAndAppend("option", inputPos, null, "right")
-        CreateAndAppend("option", inputPos, null, "bottom")
-        CreateAndAppend("option", inputPos, null, "top")
 
-        CreateAndAppend("option", inputPos, null, "top-right")
-        CreateAndAppend("option", inputPos, null, "top-left")
 
-        CreateAndAppend("option", inputPos, null, "left-top")
-        CreateAndAppend("option", inputPos, null, "left-bottom")
+        var positions = [
+            "left",
+            "right",
+            "bottom",
+            "top",
+            "top-right",
+            "top-left",
+            "left-top",
+            "left-bottom",
+            "right-top",
+            "right-bottom",
+            "bottom-right",
+            "bottom-left"]
 
-        CreateAndAppend("option", inputPos, null, "right-top")
-        CreateAndAppend("option", inputPos, null, "right-bottom")
-        CreateAndAppend("option", inputPos, null, "bottom-right")
-        CreateAndAppend("option", inputPos, null, "bottom-left")
-
+        positions.forEach(ii => {
+            CreateAndAppend("option", inputPos, null, ii)
+        })
 
         closebtn.onclick = function () {
             tableQuestions.removeChild(tr)
@@ -222,7 +235,8 @@
             })
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(json)
+                    $("#BlankModal").modal("hide")
+                    load();
                 });
 
         }

@@ -2,8 +2,10 @@
 using Jadval.Application.Interfaces;
 using Jadval.Application.Interfaces.Repositories;
 using Jadval.Application.Wrappers;
+using Jadval.Domain.Crosswords.Dtos;
 using MediatR;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,7 +24,8 @@ namespace Jadval.Application.Features.Crosswords.Commands.CheckCrossword
 
         public async Task<Result<List<CheckCrosswordResponce>>> Handle(CheckCrosswordCommand request, CancellationToken cancellationToken)
         {
-            var temp =  await crosswordRepository.GetByLevel(request.Level);
+            var crossword = await crosswordRepository.GetByLevel(request.Level);
+            var temp = JsonSerializer.Deserialize<CrosswordDto>(crossword.Content);
 
             List<CheckCrosswordResponce> result = new List<CheckCrosswordResponce>();
             foreach (var item in request.Items)
@@ -34,7 +37,7 @@ namespace Jadval.Application.Features.Crosswords.Commands.CheckCrossword
                     Result = temp.Data[item.Row][item.Col] == item.Value
                 });
             }
-            
+
             return new Result<List<CheckCrosswordResponce>>(result);
         }
     }

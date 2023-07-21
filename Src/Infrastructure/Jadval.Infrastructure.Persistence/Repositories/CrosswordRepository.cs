@@ -38,41 +38,13 @@ namespace Jadval.Infrastructure.Persistence.Repositories
             return new Tuple<List<bool>, int>(result, count);
         }
 
-        public async Task<CrosswordDto> GetByLevel(int level)
+        public async Task<Crossword> GetByLevel(int level)
         {
             var crossword = await crosswords
                 .Skip(level)
                 .Take(1)
-                .Include(p => p.Questions)
-                .ThenInclude(p => p.Value)
-
                 .FirstOrDefaultAsync();
-
-
-            var crosswordQuestions = new List<QuestionDto>();
-            foreach (var question in crossword.Questions)
-            {
-
-                var crosswordQuestion = new QuestionDto()
-                {
-                    QuestionId = question.QuestionId
-                };
-                crosswordQuestion.Value = question.Value.Select(p => new ValueDto()
-                {
-
-                    Position = p.Position,
-                    Question = p.Question
-                }).ToList();
-                crosswordQuestions.Add(crosswordQuestion);
-            }
-
-            var result = new CrosswordDto()
-            {
-                Data = crossword.GetData(),
-                Questions = crosswordQuestions
-            };
-
-            return result;
+            return crossword;
         }
     }
 }

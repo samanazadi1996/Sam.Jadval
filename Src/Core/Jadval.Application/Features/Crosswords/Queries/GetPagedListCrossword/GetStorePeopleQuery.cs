@@ -27,7 +27,7 @@ namespace Jadval.Application.Features.Crosswords.Queries.GetPagedListCrossword
 
         public async Task<PagedResponse<bool>> Handle(GetPagedListCrosswordQuery request, CancellationToken cancellationToken)
         {
-            var storeId = authenticatedUser.UserId;
+            var userId = authenticatedUser.UserId;
             var level = 10;
             var result = await crosswordRepository.GetPaged(
                 request.PageNumber,

@@ -9,38 +9,16 @@ namespace Jadval.Domain.Crosswords.Entities
         {
 
         }
-        public Crossword(List<List<string>> data)
+        public Crossword(string content)
         {
-            SetData(data);
+            SetContent(content);
         }
 
-        public List<List<string>> GetData()
+        public void SetContent(string content)
         {
-            var model = new List<List<string>>();
-
-            foreach (var item in Data.Split("_"))
-            {
-                var temp = new List<string>();
-                foreach (var ss in item.Split(","))
-                    temp.Add(ss);
-
-                model.Add(temp);
-
-            }
-
-            return model;
-        }
-        public void SetData(List<List<string>> data)
-        {
-            var temp =new  List<string>();
-
-            foreach (var ss in data)
-                temp.Add(string.Join(",", ss));
-
-            Data = string.Join("_", temp);
+            Content = content;
         }
 
-        public string Data { get; set; }
-        public List<CrosswordQuestion> Questions { get; set; }
+        public string Content { get; set; }
     }
 }

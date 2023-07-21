@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Jadval.Application.Interfaces;
+﻿using Jadval.Application.Interfaces;
 using Jadval.Application.Interfaces.Repositories;
 using Jadval.Application.Wrappers;
 using Jadval.Domain.Crosswords.Entities;
 using MediatR;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Jadval.Application.Features.Crosswords.Commands.CreateCrossword
 {
@@ -23,23 +22,8 @@ namespace Jadval.Application.Features.Crosswords.Commands.CreateCrossword
 
         public async Task<Result<long>> Handle(CreateCrosswordCommand request, CancellationToken cancellationToken)
         {
-            var crosswordQuestions = new List<CrosswordQuestion>();
-            foreach (var question in request.Questions)
-            {
-
-                var crosswordQuestion = new CrosswordQuestion()
-                {
-                    QuestionId = question.QuestionId
-                };
-                crosswordQuestion.Value=question.Value.Select(p=>new CrosswordQuestionValue(p.Question,p.Position)).ToList();
-                crosswordQuestions.Add(crosswordQuestion);
-            }
-
-            var crossword = new Crossword(request.Data)
-            {
-                Questions = crosswordQuestions
-            };
-
+            var content = JsonSerializer.Serialize(request);
+            var crossword = new Crossword(content);
 
             await crosswordRepository.AddAsync(crossword);
 

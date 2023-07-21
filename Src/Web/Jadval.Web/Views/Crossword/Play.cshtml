@@ -20,8 +20,9 @@
                 return temp;
             };
             const IsNumber = (char) => {
-                if (char) return "123456789".includes(char);
-                return false;
+                char = char.trim()
+                if (char=="") return false;
+                return !isNaN(Number(char));
             };
             const CreateQuestionPosition = (element, pos) => {
                 var flash = CreateAndAppend("img", element);

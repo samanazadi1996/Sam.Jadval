@@ -17,6 +17,10 @@ namespace Jadval.Application.Features.Crosswords.Commands.CreateCrossword
 
     public class Value
     {
+        public Value()
+        {
+
+        }
         public Value(string question, string position)
         {
             Question = question;

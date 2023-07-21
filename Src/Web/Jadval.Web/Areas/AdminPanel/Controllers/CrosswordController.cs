@@ -26,7 +26,7 @@ namespace TSPStore.WebMvc.Areas.AdminPanel.Controllers
             return PartialView(pageResult);
         }
         [HttpPost]
-        public async Task<Result<long>> Create(CreateCrosswordCommand model)
+        public async Task<Result<long>> Create([FromBody] CreateCrosswordCommand model)
         {
             var serviceResult = await Mediator.Send(model);
             return serviceResult;

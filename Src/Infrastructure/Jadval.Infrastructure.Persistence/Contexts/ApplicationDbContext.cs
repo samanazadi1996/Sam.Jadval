@@ -22,9 +22,6 @@ namespace Jadval.Infrastructure.Persistence.Contexts
 
         public DbSet<OutBoxEventItem> OutBoxEventItems { get; set; }
         public DbSet<Crossword> Crosswords { get; set; }
-        public DbSet<CrosswordQuestion> CrosswordQuestions { get; set; }
-        public DbSet<CrosswordQuestionValue> CrosswordQuestionValues { get; set; }
-
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             AddDomainEvents();
