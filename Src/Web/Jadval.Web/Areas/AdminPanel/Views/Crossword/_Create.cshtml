@@ -1,0 +1,230 @@
+﻿<div class="modal-header">
+    <h5 class="modal-title mt-0" id="myModalLabel">مرحله جدید</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>
+<div class="modal-body row">
+
+    <div class="col-md-6 row">
+        <div class="col-6">
+            <input type="number" value="4" id="CrosswordRow" class="form-control" onchange="CreateModel()" />
+        </div>
+        <div class="col-6">
+            <input type="number" value="4" id="CrosswordCol" class="form-control" onchange="CreateModel()" />
+        </div>
+        <div class="col-md-12">
+            <table id="tableQuestions" class="w-100" style="direction:rtl">
+            </table>
+            <button onclick="AddQuestion()">جدید</button>
+        </div>
+    </div>
+    <div class="col-md-6 table-responsive" style="overflow:scroll" id="bodyCrossword"></div>
+</div>
+<div class="modal-footer d-block">
+    <button type="button" class="btn btn-secondary waves-effect w-md" data-dismiss="modal">بستن</button>
+    <button type="button" class="btn btn-success waves-effect waves-light w-md" onclick="SaveGame()">ذخیره</button>
+</div>
+<script>
+    var model = {
+        data: null,
+        questions: []
+    };
+    const CreateAndAppend = (name, element, cls = null, text = null) => {
+        var temp = document.createElement(name);
+        if (cls) temp.classList = cls;
+        if (text) temp.innerText = text;
+        element.appendChild(temp);
+        return temp;
+    };
+    const IsNumber = (char) => {
+        if (char) return "123456789".includes(char);
+        return false;
+    };
+    function CreateQuestions() {
+        var temp = []
+        var tableQuestions = document.getElementById("tableQuestions")
+
+        for (var i = 0; i < tableQuestions.children.length; i++) {
+            var item = tableQuestions.children[i]
+            var id = item.children[1].children[0].value
+            var question = item.children[2].children[0].value
+            var position = item.children[3].children[0].value
+            temp.push({ id, question, position })
+        }
+        var dis = temp
+            .map((item) => item.id)
+            .filter((value, index, self) => self.indexOf(value) === index);
+
+        model.questions = []
+        dis.forEach(item => {
+            var question = { questionId: Number(item), value: [] }
+            temp.filter(p => p.id == item).forEach(q => {
+                question.value.push({
+                    question: q.question,
+                    position: q.position
+                })
+            })
+
+            model.questions.push(question)
+        })
+        LoadCrossword()
+    }
+
+    function AddQuestion() {
+        var tableQuestions = document.getElementById("tableQuestions")
+        var tr = CreateAndAppend("tr", tableQuestions)
+        var tdClose = CreateAndAppend("td", tr)
+        var tdId = CreateAndAppend("td", tr)
+        var tdQuestion = CreateAndAppend("td", tr)
+        var tdPos = CreateAndAppend("td", tr)
+
+        var closebtn = CreateAndAppend("span", tdClose, null, "X")
+        var inputId = CreateAndAppend("input", tdId, "w-100")
+        inputId.setAttribute("type", "number")
+        inputId.value = "0"
+        var inputQuestion = CreateAndAppend("input", tdQuestion, "w-100")
+        var inputPos = CreateAndAppend("select", tdPos)
+        CreateAndAppend("option", inputPos, null, "left")
+        CreateAndAppend("option", inputPos, null, "right")
+        CreateAndAppend("option", inputPos, null, "bottom")
+        CreateAndAppend("option", inputPos, null, "top")
+
+        CreateAndAppend("option", inputPos, null, "top-right")
+        CreateAndAppend("option", inputPos, null, "top-left")
+
+        CreateAndAppend("option", inputPos, null, "left-top")
+        CreateAndAppend("option", inputPos, null, "left-bottom")
+
+        CreateAndAppend("option", inputPos, null, "right-top")
+        CreateAndAppend("option", inputPos, null, "right-bottom")
+        CreateAndAppend("option", inputPos, null, "bottom-right")
+        CreateAndAppend("option", inputPos, null, "bottom-left")
+
+
+        closebtn.onclick = function () {
+            tableQuestions.removeChild(tr)
+        }
+        inputId.onchange = function () {
+            CreateQuestions()
+        }
+        inputQuestion.onchange = function () {
+            CreateQuestions()
+        }
+        inputPos.onchange = function () {
+            CreateQuestions()
+        }
+    }
+    function CreateModel() {
+        var crosswordRow = document.getElementById("CrosswordRow").value
+        var crosswordCol = document.getElementById("CrosswordCol").value
+        model.data = []
+        for (var r = 0; r < Number(crosswordRow); r++) {
+            var rows = []
+            for (var c = 0; c < Number(crosswordCol); c++) {
+                rows.push("a")
+            }
+            model.data.push(rows)
+        }
+        LoadCrossword()
+    }
+    function LoadCrossword() {
+        var bodyCrossword = document.getElementById("bodyCrossword")
+        bodyCrossword.innerHTML = ""
+        const CreateQuestionPosition = (element, pos) => {
+            var flash = CreateAndAppend("img", element);
+            if (pos.startsWith("left"))
+                flash.classList = "sam_jadval_table_td_div_box_question_flash_left";
+
+            if (pos.startsWith("right"))
+                flash.classList = "sam_jadval_table_td_div_box_question_flash_right";
+
+            if (pos.startsWith("bottom"))
+                flash.classList = "sam_jadval_table_td_div_box_question_flash_bottom";
+
+            if (pos.startsWith("top"))
+                flash.classList = "sam_jadval_table_td_div_box_question_flash_top";
+
+            flash.setAttribute("src", `/images/flashs/${pos}.png`);
+        };
+
+        var table = CreateAndAppend("table", bodyCrossword, "sam_jadval_table");
+        var rowIndexer = 0;
+        model.data.forEach((row) => {
+            var tr = CreateAndAppend("tr", table);
+            var colIndexer = 0;
+            row.forEach((col) => {
+                var td = CreateAndAppend("td", tr);
+                if (col == "") {
+                } else {
+                    if (IsNumber(col)) {
+                        var temp = CreateAndAppend(
+                            "div",
+                            td,
+                            "sam_jadval_table_td_div_box sam_jadval_table_td_div_box_questions"
+                        );
+
+                        var questions = model.questions.filter((p) => p.questionId == col)[0]
+                            .value;
+                        questions.forEach((item) => {
+                            var questionBox = CreateAndAppend(
+                                "div",
+                                temp,
+                                "sam_jadval_table_td_div_box_question"
+                            );
+                            questionBox.style.height = 100 / questions.length + "%";
+                            var jj = CreateAndAppend(
+                                "div",
+                                questionBox,
+                                "sam_jadval_table_td_div_box_center",
+                                item.question
+                            );
+                            if (item != questions[questions.length - 1])
+                                CreateAndAppend("hr", temp);
+
+                            CreateQuestionPosition(questionBox, item.position);
+                        });
+                    } else {
+                        var dibvLable = CreateAndAppend(
+                            "div",
+                            td,
+                            "sam_jadval_table_td_div_box sam_jadval_table_td_div_box_char"
+                        );
+                        var lable = CreateAndAppend(
+                            "div",
+                            dibvLable,
+                            "sam_jadval_table_td_div_box_center",
+                            col
+                        );
+                    }
+                }
+                td.setAttribute("row", rowIndexer);
+                td.setAttribute("col", colIndexer);
+                td.onclick = function () {
+                    var col = td.attributes["col"].value
+                    var row = td.attributes["row"].value
+                    var chr = prompt("char")
+                    model.data[row][col] = chr;
+                    LoadCrossword()
+                }
+                colIndexer++;
+            });
+            rowIndexer++;
+        });
+    }
+        function SaveGame() {
+            fetch('@Url.Action("Create", "Crossword")', {
+                method: "POST",
+                body: JSON.stringify(model),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            })
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json)
+                });
+
+        }
+
+</script>

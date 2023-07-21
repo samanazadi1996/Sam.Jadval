@@ -8,13 +8,13 @@
   Author URL: hhttps://themeselection.com/
 ==========================================================================================*/
 
-(function(window, document, $) {
+(function (window, document, $) {
     'use strict';
     var $html = $('html');
     var $body = $('body');
 
 
-    $(window).on('load', function() {
+    $(window).on('load', function () {
         var rtl;
         var compactMenu = false; // Set it to true, if you want default menu to be compact
 
@@ -22,7 +22,7 @@
             rtl = true;
         }
 
-        setTimeout(function() {
+        setTimeout(function () {
             $html.removeClass('loading').addClass('loaded');
         }, 1200);
 
@@ -36,7 +36,7 @@
             $.app.nav.init(config);
         }
 
-        Unison.on('change', function(bp) {
+        Unison.on('change', function (bp) {
             $.app.menu.change();
         });
 
@@ -46,7 +46,7 @@
         });
 
         // Collapsible Card
-        $('a[data-action="collapse"]').on('click', function(e) {
+        $('a[data-action="collapse"]').on('click', function (e) {
             e.preventDefault();
             $(this).closest('.card').children('.card-content').collapse('toggle');
             $(this).closest('.card').find('[data-action="collapse"] i').toggleClass('ft-minus ft-plus');
@@ -54,7 +54,7 @@
         });
 
         // Toggle fullscreen
-        $('a[data-action="expand"]').on('click', function(e) {
+        $('a[data-action="expand"]').on('click', function (e) {
             e.preventDefault();
             $(this).closest('.card').find('[data-action="expand"] i').toggleClass('ft-maximize ft-minimize');
             $(this).closest('.card').toggleClass('card-fullscreen');
@@ -68,7 +68,7 @@
         }
 
         // Reload Card
-        $('a[data-action="reload"]').on('click', function() {
+        $('a[data-action="reload"]').on('click', function () {
             var block_ele = $(this).closest('.card');
 
             // Block Element
@@ -88,19 +88,19 @@
         });
 
         // Close Card
-        $('a[data-action="close"]').on('click', function() {
+        $('a[data-action="close"]').on('click', function () {
             $(this).closest('.card').removeClass().slideUp('fast');
         });
 
         // Match the height of each card in a row
-        setTimeout(function() {
-            $('.row.match-height').each(function() {
+        setTimeout(function () {
+            $('.row.match-height').each(function () {
                 $(this).find('.card').not('.card .card').matchHeight(); // Not .card .card prevents collapsible cards from taking height
             });
         }, 500);
 
 
-        $('.card .heading-elements a[data-action="collapse"]').on('click', function() {
+        $('.card .heading-elements a[data-action="collapse"]').on('click', function () {
             var $this = $(this),
                 card = $this.closest('.card');
             var cardHeight;
@@ -133,7 +133,7 @@
         }
 
         //card heading actions buttons small screen support
-        $(".heading-elements-toggle").on("click", function() {
+        $(".heading-elements-toggle").on("click", function () {
             $(this).parent().children(".heading-elements").toggleClass("visible");
         });
 
@@ -143,7 +143,7 @@
         chartjsDiv.css('height', canvasHeight);
 
 
-        $('.nav-link-search').on('click', function() {
+        $('.nav-link-search').on('click', function () {
             var $this = $(this),
                 searchInput = $(this).siblings('.search-input');
 
@@ -156,18 +156,18 @@
     });
 
 
-    $(document).on('click', '.menu-toggle, .modern-nav-toggle', function(e) {
+    $(document).on('click', '.menu-toggle, .modern-nav-toggle', function (e) {
         e.preventDefault();
 
         // Toggle menu
         $.app.menu.toggle();
 
-        setTimeout(function() {
+        setTimeout(function () {
             $(window).trigger("resize");
         }, 200);
 
         if ($('#collapsed-sidebar').length > 0) {
-            setTimeout(function() {
+            setTimeout(function () {
                 if ($body.hasClass('menu-expanded') || $body.hasClass('menu-open')) {
                     $('#collapsed-sidebar').prop('checked', false);
                 } else {
@@ -179,7 +179,7 @@
         return false;
     });
 
-    $(document).on('click', '.open-navbar-container', function(e) {
+    $(document).on('click', '.open-navbar-container', function (e) {
 
         var currentBreakpoint = Unison.fetch.now();
 
@@ -189,7 +189,7 @@
         // return false;
     });
 
-    $(document).on('click', '.main-menu-footer .footer-toggle', function(e) {
+    $(document).on('click', '.main-menu-footer .footer-toggle', function (e) {
         e.preventDefault();
         $(this).find('i').toggleClass('pe-is-i-angle-down pe-is-i-angle-up');
         $('.main-menu-footer').toggleClass('footer-close footer-open');
@@ -201,13 +201,13 @@
 
 
     // Update manual scroller when window is resized
-    $(window).resize(function() {
+    $(window).resize(function () {
         $.app.menu.manualScroller.updateHeight();
     });
 
 
     // Add navbar shadow on scroll
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         // console.log($(window).scrollTop());
         if ($(window).scrollTop() > 60) {
             $('.header-navbar').addClass('navbar-shadow');
@@ -220,3 +220,8 @@
     });
 
 })(window, document, jQuery);
+function ReloadUnobtrusive() {
+    $("form").removeData("validator");
+    $("form").removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse("form");
+}

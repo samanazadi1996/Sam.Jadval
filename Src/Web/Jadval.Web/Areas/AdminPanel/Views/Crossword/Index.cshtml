@@ -2,11 +2,13 @@
 @{
     ViewData["Title"] = "لیست مراحل بازی";
 }
+<link rel="stylesheet" href="~/css/site.css" />
+
 <div class="row match-height">
     <div class="col-xl-12 col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h6 class="card-title">لیست مراحل بازی</h6>
+                <button type="submit" class="btn-gradient-primary my-1" onclick="loadCreateCrossword()">جدید</button>
             </div>
             <div class="card-body" id="ListBody">
 
@@ -14,6 +16,15 @@
         </div>
     </div>
 </div>
+
+<div id="BlankModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="ModalBody">
+            ...
+        </div>
+    </div>
+</div>
+
 
 <script>
     function load() {
@@ -24,5 +35,105 @@
             );
     }
     load();
+
+    function loadCreateCrossword() {
+        $.get('@Url.Action("_Create", "Crossword")', function (data) {
+            $("#ModalBody").html(data)
+            $("#BlankModal").modal("show")
+            CreateModel()
+        });
+    };
+
+    function CreateCrossword()
+    {
+        alert()
+    }
+    function Load(model) {
+        const CreateAndAppend = (name, element, cls = null, text = null) => {
+            var temp = document.createElement(name);
+            if (cls) temp.classList = cls;
+            if (text) temp.innerText = text;
+            element.appendChild(temp);
+            return temp;
+        };
+        const IsNumber = (char) => {
+            if (char) return "123456789".includes(char);
+            return false;
+        };
+        const CreateQuestionPosition = (element, pos) => {
+            var flash = CreateAndAppend("img", element);
+            if (pos.startsWith("left"))
+                flash.classList = "sam_jadval_table_td_div_box_question_flash_left";
+
+            if (pos.startsWith("right"))
+                flash.classList = "sam_jadval_table_td_div_box_question_flash_right";
+
+            if (pos.startsWith("bottom"))
+                flash.classList = "sam_jadval_table_td_div_box_question_flash_bottom";
+
+            if (pos.startsWith("top"))
+                flash.classList = "sam_jadval_table_td_div_box_question_flash_top";
+
+            flash.setAttribute("src", `./images/flashs/${pos}.png`);
+        };
+
+        var table = CreateAndAppend("table", document.getElementById("bodyCrossword"), "sam_jadval_table");
+
+        var rowIndexer = 0;
+        model.data.forEach((row) => {
+            var tr = CreateAndAppend("tr", table);
+            var colIndexer = 0;
+            row.forEach((col) => {
+                var td = CreateAndAppend("td", tr);
+                if (col == "") {
+                } else {
+                    if (IsNumber(col)) {
+                        var temp = CreateAndAppend(
+                            "div",
+                            td,
+                            "sam_jadval_table_td_div_box sam_jadval_table_td_div_box_questions"
+                        );
+
+                        var questions = model.questions.filter((p) => p.id == Number(col))[0]
+                            .value;
+                        questions.forEach((item) => {
+                            var questionBox = CreateAndAppend(
+                                "div",
+                                temp,
+                                "sam_jadval_table_td_div_box_question"
+                            );
+                            questionBox.style.height = 100 / questions.length + "%";
+                            var jj = CreateAndAppend(
+                                "div",
+                                questionBox,
+                                "sam_jadval_table_td_div_box_center",
+                                item.question
+                            );
+                            if (item != questions[questions.length - 1])
+                                CreateAndAppend("hr", temp);
+
+                            CreateQuestionPosition(questionBox, item.position);
+                        });
+                    } else {
+                        var dibvLable = CreateAndAppend(
+                            "div",
+                            td,
+                            "sam_jadval_table_td_div_box sam_jadval_table_td_div_box_char"
+                        );
+                        var lable = CreateAndAppend(
+                            "div",
+                            dibvLable,
+                            "sam_jadval_table_td_div_box_center",
+                            col
+                        );
+                        lable.setAttribute("row", rowIndexer);
+                        lable.setAttribute("col", colIndexer);
+                    }
+                }
+                colIndexer++;
+            });
+            rowIndexer++;
+        });
+    }
 
 </script>
