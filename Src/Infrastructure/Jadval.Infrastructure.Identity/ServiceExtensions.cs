@@ -35,6 +35,7 @@ namespace TSPStore.Infrastructure.Identity
 
             services.AddTransient<IGetUserServices, GetUserServices>();
             services.AddTransient<IUpdateUserServices, UpdateUserServices>();
+            services.AddTransient<IAccountServices, AccountServices>();
 
         }
         public static void AddIdentityInfrastructure(this IServiceCollection services, IConfiguration configuration)

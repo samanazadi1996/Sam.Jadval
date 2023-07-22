@@ -21,14 +21,16 @@ namespace Jadval.Web.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAuthenticatedUserService authenticatedUserService;
         private readonly IGetUserServices getUserServices;
+        private readonly IAccountServices accountServices;
 
-        public AccountController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IAuthenticatedUserService authenticatedUserService, IGetUserServices getUserServices)
+        public AccountController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IAuthenticatedUserService authenticatedUserService, IGetUserServices getUserServices, IAccountServices accountServices)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
             this.authenticatedUserService = authenticatedUserService;
             this.getUserServices = getUserServices;
+            this.accountServices = accountServices;
         }
 
         public IActionResult LogIn() => View();
@@ -75,37 +77,67 @@ namespace Jadval.Web.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        public async Task<IActionResult> Start()
+        [Authorize]
+        public IActionResult ChangeUserName() => View(new ChangeUserNameRequest() { UserName = User.Identity.Name });
+
+        [Authorize, HttpPost]
+        public async Task<IActionResult> ChangeUserName(ChangeUserNameRequest model)
         {
-            if (User.Identity.IsAuthenticated)
-                return Redirect("/Crossword");
-            var user = new ApplicationUser()
+            if (!ModelState.IsValid)
+                return View(model);
+
+
+            var result = await accountServices.ChangeUserName(model);
+            if (result.Success)
             {
-                UserName = GenerateRandomString(7)
-            };
-            await _userManager.CreateAsync(user);
-            await _signInManager.SignInAsync(user, true);
-
-            return Redirect("/Crossword");
-
-            string GenerateRandomString(int length)
-            {
-                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                var random = new Random();
-                var result = new StringBuilder(length);
-
-                for (int i = 0; i < length; i++)
-                {
-                    int index = random.Next(chars.Length);
-                    result.Append(chars[index]);
-                }
-
-                return result.ToString();
+                var user = await _userManager.FindByNameAsync(model.UserName);
+                await _signInManager.SignInAsync(user, true);
+                return Redirect("/");
             }
+
+            foreach (var item in result.Errors)
+                ModelState.AddModelError(nameof(model.UserName), item.Description);
+
+            return View(model);
 
         }
 
         [Authorize]
-        public async Task<Result<long>> GetCoins() =>await  getUserServices.GetUserCoins();
+        public IActionResult ChangePassword() => View();
+
+        [Authorize, HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+
+            var result = await accountServices.ChangePassword(model);
+            if (result.Success)
+                return Redirect("/");
+
+            foreach (var item in result.Errors)
+                ModelState.AddModelError(nameof(model.Password), item.Description);
+            return View(model);
+
+        }
+
+
+        public async Task<IActionResult> Start()
+        {
+            if (User.Identity.IsAuthenticated)
+                return Redirect("/Crossword");
+
+            var gostUsername = await accountServices.RegisterGostAccount();
+
+            var user = await _userManager.FindByNameAsync(gostUsername.Data);
+            await _signInManager.SignInAsync(user, true);
+
+            return Redirect("/Crossword");
+
+        }
+
+        [Authorize]
+        public async Task<Result<long>> GetCoins() => await getUserServices.GetUserCoins();
     }
 }

@@ -15,6 +15,21 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         @User.Identity.Name
+                        <span class="alert alert-warning p-1">
+                            💰
+                            <span id="Coins">0</span>
+                        </span>
+
+                        <script>
+                            GetCoins()
+                            function GetCoins() {
+                                fetch(`/Account/GetCoins`)
+                                    .then((response) => response.json())
+                                    .then((json) => {
+                                        document.getElementById("Coins").innerText = json.data
+                                    });
+                            }
+                        </script>
                     }
                     else
                     {
@@ -45,34 +60,22 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Crossword" asp-action="Index">برو به بازی</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOut">خروج</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangePassword">تغیر رمز عبور</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangeUserName">تغیر نام کاربری</a>
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="AdminPanel" asp-controller="home" asp-action="Index">Admin</a>
+                                    <a class="nav-link text-dark" asp-area="AdminPanel" asp-controller="home" asp-action="Index">پنل مدیریت</a>
                                 </li>
                             }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOut">خروج</a>
+                            </li>
                         }
                     </ul>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <span>
-                            💰
-                            <span id="Coins">0</span>
-                        </span>
-
-                        <script>
-                            GetCoins()
-                            function GetCoins() {
-                                fetch(`/Account/GetCoins`)
-                                    .then((response) => response.json())
-                                    .then((json) => {
-                                        document.getElementById("Coins").innerText = json.data
-                                    });
-                            }
-                        </script>
-                    }
                 </div>
             </div>
         </nav>
