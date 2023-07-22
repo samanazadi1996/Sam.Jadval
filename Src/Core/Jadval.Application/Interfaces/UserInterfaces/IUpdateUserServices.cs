@@ -5,7 +5,7 @@ namespace Jadval.Application.Interfaces.UserInterfaces
 {
     public interface IUpdateUserServices
     {
-        Task<Result<long>> ChangeUserCoins(long coins);
+        Task<Result<long>> ChangeUserCoins(long coins, long level);
         Task<Result<long>> LevelUp(long level);
     }
 }

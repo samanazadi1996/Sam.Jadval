@@ -22,10 +22,13 @@ namespace Jadval.Infrastructure.Identity.Services
             this.authenticatedUser = authenticatedUser;
             this.crosswordRepository = crosswordRepository;
         }
-        public async Task<Result<long>> ChangeUserCoins(long coins)
+        public async Task<Result<long>> ChangeUserCoins(long coins, long level)
         {
             var userId = new Guid(authenticatedUser.UserId);
             var user = await identityContext.Users.FirstOrDefaultAsync(p => p.Id == userId);
+
+            if (user.Level > level)
+                return new Result<long>(user.Coins);
 
             if (user.Coins <= 0)
                 return new Result<long>(new Error(ErrorCode.NotInRange, ""));

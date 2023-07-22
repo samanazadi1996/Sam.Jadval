@@ -2,11 +2,27 @@
 @{
     ViewData["Title"] = "Play";
 }
-
-<div id="divBody">
+<div id="divBody" class="overflow-auto table-responsive">
+</div>
+<div>
+    <button class="btn btn-info" style="width: 37px;" onclick="changeScale(0.2)">+</button>
+    <button class="btn btn-info" style="width: 37px;" onclick="changeScale(-0.2)">-</button>
 </div>
 
+
 @section Scripts{
+    <script>
+        var scale = 1
+        function changeScale(num) {
+            scale += num;
+            if (scale > 0) {
+                console.log(scale)
+                var teble = document.getElementById("divBody").children[0];
+                teble.style.transform = `scale(${scale})`
+                teble.style.transition = `200ms`
+            }
+        }
+    </script>
     <script>
         var level = @Model;
 

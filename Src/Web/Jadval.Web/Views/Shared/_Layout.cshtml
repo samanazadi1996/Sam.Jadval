@@ -11,34 +11,42 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Crossword" asp-action="Index">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        @User.Identity.Name
-                        <span class="alert alert-warning p-1">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Crossword" asp-action="Index">
+                        <span class="alert alert-warning mb-0 navbar-brand p-1">
+
+                            <img src="/favicon.ico" alt="Admin" class="mt-n1" style="width: 24px;">
+                            @User.Identity.Name
+                        </span>
+
+                        <span class="alert alert-warning mb-0 navbar-brand p-1">
                             💰
                             <span id="Coins">0</span>
                         </span>
+                    </a>
 
-                        <script>
-                            GetCoins()
-                            function GetCoins() {
-                                fetch(`/Account/GetCoins`)
-                                    .then((response) => response.json())
-                                    .then((json) => {
-                                        document.getElementById("Coins").innerText = json.data
-                                    });
-                            }
-                        </script>
-                    }
-                    else
-                    {
+
+                    <script>
+                        GetCoins()
+                        function GetCoins() {
+                            fetch(`/Account/GetCoins`)
+                                .then((response) => response.json())
+                                .then((json) => {
+                                    document.getElementById("Coins").innerText = json.data
+                                });
+                        }
+                    </script>
+                }
+                else
+                {
+                    <a class="navbar-brand" href="/">
                         <span>
-                            Jadval.Web
+                            Jadval
                         </span>
-                    }
+                    </a>
+                }
 
-                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -48,31 +56,31 @@
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">ورود</a>
+                                <a class="nav-link text-dark text-right" asp-area="" asp-controller="Account" asp-action="Login">ورود</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Start">شروع</a>
+                                <a class="nav-link text-dark  text-right" asp-area="" asp-controller="Account" asp-action="Start">شروع</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Crossword" asp-action="Index">برو به بازی</a>
+                                <a class="nav-link text-dark text-right" asp-area="" asp-controller="Crossword" asp-action="Index">برو به بازی</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangePassword">تغیر رمز عبور</a>
+                                <a class="nav-link text-dark text-right" asp-area="" asp-controller="Account" asp-action="ChangePassword">تغیر رمز عبور</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangeUserName">تغیر نام کاربری</a>
+                                <a class="nav-link text-dark text-right" asp-area="" asp-controller="Account" asp-action="ChangeUserName">تغیر نام کاربری</a>
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="AdminPanel" asp-controller="home" asp-action="Index">پنل مدیریت</a>
+                                    <a class="nav-link text-dark text-right" asp-area="AdminPanel" asp-controller="home" asp-action="Index">پنل مدیریت</a>
                                 </li>
                             }
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOut">خروج</a>
+                                <a class="nav-link text-dark text-right" asp-area="" asp-controller="Account" asp-action="LogOut">خروج</a>
                             </li>
                         }
                     </ul>

@@ -12,13 +12,14 @@
         {
             i++;
 
-            <div class="p-2 col-3 text-center">
+            <div class="col-3 text-center form-group p-1">
                 @if (item)
                 {
 
                     <form action="/Crossword/Play" method="post">
                         <input value="@i" name="level" type="hidden">
-                        <button type="submit" class="btn btn-lg btn-success pb-4 pt-5 px-5">
+                        <button type="submit" class="btn btn-success btn-block">
+                            <br />
                             ⭐
                             <p>@(i)</p>
                         </button>
@@ -26,7 +27,8 @@
                 }
                 else
                 {
-                    <button type="submit" class="btn btn-lg btn-success pb-4 pt-5 px-5">
+                    <button type="submit" class="btn btn-success btn-block" disabled>
+                        <br />
                         🔒
                         <p>@(i)</p>
                     </button>

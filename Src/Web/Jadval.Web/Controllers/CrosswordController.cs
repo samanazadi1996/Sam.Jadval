@@ -12,11 +12,13 @@ using Jadval.Application.Wrappers;
 using Jadval.Domain.Crosswords.Dtos;
 using Jadval.Web.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Jadval.Web.Controllers
 {
+    [Authorize]
     public class CrosswordController : BaseController
     {
         private readonly IGetUserServices getUserServices;

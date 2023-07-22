@@ -43,7 +43,8 @@ namespace Jadval.Application.Features.Crosswords.Commands.CheckCrossword
             }
 
             var getUserCoins = await getUserServices.GetUserCoins();
-            var changeUserCoinsResult = await updateUserServices.ChangeUserCoins(result.Any(p => p.Result) ? 1 : -5);
+            var coin = result.Any(p => p.Result) ? 1 : -5;
+            var changeUserCoinsResult = await updateUserServices.ChangeUserCoins(coin, request.Level);
             if (!changeUserCoinsResult.Success)
             {
                 return new Result<List<CheckCrosswordResponce>>(changeUserCoinsResult.Errors);
