@@ -42,14 +42,11 @@ namespace Jadval.Application.Features.Crosswords.Commands.CheckCrossword
                 });
             }
 
-            if (request.Items.Count == 2)
+            var getUserCoins = await getUserServices.GetUserCoins();
+            var changeUserCoinsResult = await updateUserServices.ChangeUserCoins(result.Any(p => p.Result) ? 1 : -5);
+            if (!changeUserCoinsResult.Success)
             {
-                var getUserCoins = await getUserServices.GetUserCoins();
-                var changeUserCoinsResult = await updateUserServices.ChangeUserCoins(result.Any(p => p.Result) ? 1 : -5);
-                if (!changeUserCoinsResult.Success)
-                {
-                    return new Result<List<CheckCrosswordResponce>>(changeUserCoinsResult.Errors);
-                }
+                return new Result<List<CheckCrosswordResponce>>(changeUserCoinsResult.Errors);
             }
 
             return new Result<List<CheckCrosswordResponce>>(result);

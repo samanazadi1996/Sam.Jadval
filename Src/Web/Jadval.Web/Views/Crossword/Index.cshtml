@@ -6,25 +6,34 @@
 }
 
 <div class="row">
+    <div class="col-md-6 row m-auto">
 
-    @foreach (var item in Model.Data)
-    {
-        <div class="p-2">
-            @if (item)
-            {
+        @foreach (var item in Model.Data)
+        {
+            <div class="p-2 col-3 text-center">
+                @if (item)
+                {
 
-                <form action="/Crossword/Play" method="post">
-                    <input value="@i" name="level" type="hidden">
-                    <input type="submit" value="⭐" class="btn btn-lg btn-success">
-                </form>
-            }
-            else
-            {
-                <input type="submit" value="🔒" class="btn btn-lg btn-success">
-            }
-        </div>
-        i++;
-    }
+                    <form action="/Crossword/Play" method="post">
+                        <input value="@i" name="level" type="hidden">
+                        <button type="submit" class="btn btn-lg btn-success pb-4 pt-5 px-5">
+                            ⭐
+                            <p>@(i + 1)</p>
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-lg btn-success pb-4 pt-5 px-5">
+                        🔒
+                        <p>@(i + 1)</p>
+                    </button>
+                }
+            </div>
+            i++;
+        }
+    </div>
+
 </div>
 
 @section Scripts{

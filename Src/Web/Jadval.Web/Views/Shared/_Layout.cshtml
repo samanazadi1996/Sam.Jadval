@@ -55,21 +55,24 @@
                             }
                         }
                     </ul>
-                    <span>
-                        <i class=""></i>
-                        <span id="Coins">0</span>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <span>
+                            💰
+                            <span id="Coins">0</span>
                         </span>
 
-                    <script>
-                        GetCoins()
-                        function GetCoins() {
-                            fetch(`/Account/GetCoins`)
-                                .then((response) => response.json())
-                                .then((json) => {
-                                    document.getElementById("Coins").innerText=json.data
-                                });
-                        }
-                    </script>
+                        <script>
+                            GetCoins()
+                            function GetCoins() {
+                                fetch(`/Account/GetCoins`)
+                                    .then((response) => response.json())
+                                    .then((json) => {
+                                        document.getElementById("Coins").innerText = json.data
+                                    });
+                            }
+                        </script>
+                    }
                 </div>
             </div>
         </nav>
