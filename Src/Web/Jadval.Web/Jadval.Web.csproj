@@ -17,7 +17,7 @@
 
 
 	<ItemGroup>
-	  <None Update="SqlSeedData\Crosswords.txt">
+	  <None Update="SqlSeedData\Crosswords.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

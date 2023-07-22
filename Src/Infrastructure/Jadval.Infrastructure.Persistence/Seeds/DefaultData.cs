@@ -18,14 +18,14 @@ namespace Jadval.Infrastructure.Persistence.Seeds
                 var command = File.ReadAllText(item);
                 try
                 {
-                    applicationDbContext.Database.ExecuteSqlRaw(command);
+                   await applicationDbContext.Database.ExecuteSqlRawAsync(command);
                 }
                 catch
                 {
                 }
             }
 
-            applicationDbContext.SaveChanges();
+          await  applicationDbContext.SaveChangesAsync();
         }
     }
 }
