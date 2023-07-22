@@ -8,6 +8,7 @@ namespace Jadval.Application.Interfaces.UserInterfaces
     public interface IGetUserServices
     {
         Task<PagedResponse<UserDto>> GetPagedUsers(GetAllUsersRequest model);
-
+        Task<Result<long>> GetUserCoins();
+        Task<Result<long>> GetUserLevel();
     }
 }

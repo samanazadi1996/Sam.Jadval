@@ -1,13 +1,12 @@
-﻿using Jadval.Domain.Settings;
-using System;
+﻿using Jadval.Application.Interfaces.UserInterfaces;
+using Jadval.Domain.Settings;
 using Jadval.Infrastructure.Identity.Contexts;
 using Jadval.Infrastructure.Identity.Models;
+using Jadval.Infrastructure.Identity.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Jadval.Infrastructure.Identity.Services;
-using Jadval.Application.Interfaces.UserInterfaces;
 
 namespace TSPStore.Infrastructure.Identity
 {
@@ -35,6 +34,7 @@ namespace TSPStore.Infrastructure.Identity
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IGetUserServices, GetUserServices>();
+            services.AddTransient<IUpdateUserServices, UpdateUserServices>();
 
         }
         public static void AddIdentityInfrastructure(this IServiceCollection services, IConfiguration configuration)

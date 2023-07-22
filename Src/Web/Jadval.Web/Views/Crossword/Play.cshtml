@@ -1,4 +1,4 @@
-﻿@model int
+﻿@model long
 @{
     ViewData["Title"] = "Play";
 }
@@ -21,7 +21,7 @@
             };
             const IsNumber = (char) => {
                 char = char.trim()
-                if (char=="") return false;
+                if (char == "") return false;
                 return !isNaN(Number(char));
             };
             const CreateQuestionPosition = (element, pos) => {
@@ -68,15 +68,45 @@
                                     `.sam_jadval_table_td_div_box_center[row='${element.row}'][col='${element.col}']`
                                 );
                                 ee.parentElement.style.backgroundColor = "white";
+                                FinishCrossword()
                             }
                         });
                     });
-
-                return { one: false, two: true };
+                GetCoins()
             };
+            const FinishCrossword = () => {
+                var ee = document.getElementsByClassName("sam_jadval_table_td_div_box_char")
+                var finish = true;
+                var wwww = [];
+                for (var i = 0; i < ee.length; i++) {
+                    var p = ee[i]
+                    if (p.style.backgroundColor != "white")
+                        finish = false;
+                    wwww.push({
+                        row: Number(p.children[0].attributes["row"].value),
+                        col: Number(p.children[0].attributes["col"].value),
+                        value: p.children[0].innerText,
+                    });
 
+                }
+                if (finish) {
+                    fetch("/Crossword/FinishCrossword", {
+                        method: "POST",
+                        body: JSON.stringify({ items: wwww, level }),
+                        headers: {
+                            "Content-type": "application/json; charset=UTF-8",
+                        },
+                    })
+                        .then((response) => response.json())
+                        .then((json) => {
+                            document.getElementById("divBody").innerHTML = ""
+                            level = json.data
+                            GenerateCrossWord(level)
+                        });
+
+                }
+            };
             var rowIndexer = 0;
-            var modelCheckAll = [];
             model.data.forEach((row) => {
                 var tr = CreateAndAppend("tr", table);
                 var colIndexer = 0;
@@ -125,7 +155,7 @@
                             );
                             lable.setAttribute("row", rowIndexer);
                             lable.setAttribute("col", colIndexer);
-                            modelCheckAll.push({ row: rowIndexer, col: colIndexer });
+
                             dibvLable.onclick = function () {
                                 if (dibvLable.style.backgroundColor != "white") {
                                     if (selectedLabel == null) {
@@ -136,16 +166,17 @@
                                         lable.innerText = selectedLabel.innerText;
                                         selectedLabel.innerText = ee;
                                         selectedLabel.parentElement.style.backgroundColor = "";
-                                        CheckModel([
-                                            {
-                                                row: lable.attributes["row"].value,
-                                                col: lable.attributes["col"].value,
-                                            },
-                                            {
-                                                row: selectedLabel.attributes["row"].value,
-                                                col: selectedLabel.attributes["col"].value,
-                                            },
-                                        ]);
+                                        if (selectedLabel.innerText != lable.innerText)
+                                            CheckModel([
+                                                {
+                                                    row: lable.attributes["row"].value,
+                                                    col: lable.attributes["col"].value,
+                                                },
+                                                {
+                                                    row: selectedLabel.attributes["row"].value,
+                                                    col: selectedLabel.attributes["col"].value,
+                                                },
+                                            ]);
                                         selectedLabel = null;
                                     }
                                 }
@@ -156,13 +187,16 @@
                 });
                 rowIndexer++;
             });
-            CheckModel(modelCheckAll);
         }
-        fetch(`/Crossword/Get?level=${level}`)
-            .then((response) => response.json())
-            .then((json) =>
-                Load(json)
-            );
+        function GenerateCrossWord(lvl) {
+            level = lvl;
+            fetch(`/Crossword/Get?level=${level}`)
+                .then((response) => response.json())
+                .then((json) =>
+                    Load(json)
+                );
+        }
+        GenerateCrossWord(level)
 
 
     </script>

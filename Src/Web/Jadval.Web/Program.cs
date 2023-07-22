@@ -30,9 +30,11 @@ namespace Jadval.Web
 
                 var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
+                var applicationDbContext = services.GetRequiredService<ApplicationDbContext>();
 
                 await Infrastructure.Identity.Seeds.DefaultRoles.SeedAsync(userManager, roleManager);
                 await Infrastructure.Identity.Seeds.DefaultBasicUser.SeedAsync(userManager);
+                await Infrastructure.Persistence.Seeds.DefaultData.SeedAsync(applicationDbContext);
 
             }
 

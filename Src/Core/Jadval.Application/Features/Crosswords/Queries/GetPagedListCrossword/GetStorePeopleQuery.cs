@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Jadval.Application.Interfaces;
 using Jadval.Application.Interfaces.Repositories;
+using Jadval.Application.Interfaces.UserInterfaces;
 using Jadval.Application.Wrappers;
 using MediatR;
 
@@ -16,23 +17,23 @@ namespace Jadval.Application.Features.Crosswords.Queries.GetPagedListCrossword
     public class GetPagedListCrosswordQueryHandler : IRequestHandler<GetPagedListCrosswordQuery, PagedResponse<bool>>
     {
         private readonly ICrosswordRepository crosswordRepository;
-        private readonly IAuthenticatedUserService authenticatedUser;
+        private readonly IGetUserServices getUserServices;
 
-        public GetPagedListCrosswordQueryHandler(IAuthenticatedUserService authenticatedUser, ICrosswordRepository crosswordRepository)
+        public GetPagedListCrosswordQueryHandler(ICrosswordRepository crosswordRepository, IGetUserServices getUserServices)
         {
-            this.authenticatedUser = authenticatedUser;
             this.crosswordRepository = crosswordRepository;
+            this.getUserServices = getUserServices;
         }
 
 
         public async Task<PagedResponse<bool>> Handle(GetPagedListCrosswordQuery request, CancellationToken cancellationToken)
         {
-            var userId = authenticatedUser.UserId;
-            var level = 10;
+            var level = await getUserServices.GetUserLevel();
+
             var result = await crosswordRepository.GetPaged(
                 request.PageNumber,
                 request.PageSize,
-                level
+                level.Data
                 );
 
             return new PagedResponse<bool>(result, request.PageNumber, request.PageSize);

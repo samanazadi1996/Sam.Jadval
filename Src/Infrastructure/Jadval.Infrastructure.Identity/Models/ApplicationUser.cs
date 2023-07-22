@@ -9,8 +9,18 @@ namespace Jadval.Infrastructure.Identity.Models
         {
             Created = DateTime.Now;
             Coins = 100;
-            Level = 1;
+            Level = 0;
         }
+        public void AddCoins(long coins)
+        {
+            Coins += coins;
+        }
+
+        internal void LevelUp()
+        {
+            Level++;
+        }
+
         public string Name { get; set; }
         public DateTime Created { get; set; }
         public long Coins { get; set; }

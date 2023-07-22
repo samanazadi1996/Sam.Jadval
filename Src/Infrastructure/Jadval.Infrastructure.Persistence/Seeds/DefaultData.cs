@@ -1,0 +1,31 @@
+﻿using Jadval.Infrastructure.Persistence.Contexts;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Jadval.Infrastructure.Persistence.Seeds
+{
+    public static class DefaultData
+    {
+        public static async Task SeedAsync(ApplicationDbContext applicationDbContext)
+        {
+            var dir = Path.Combine(Directory.GetCurrentDirectory(), "SqlSeedData");
+
+            foreach (var item in Directory.GetFiles(dir))
+            {
+                var command = File.ReadAllText(item);
+                try
+                {
+                    applicationDbContext.Database.ExecuteSqlRaw(command);
+                }
+                catch
+                {
+                }
+            }
+
+            applicationDbContext.SaveChanges();
+        }
+    }
+}

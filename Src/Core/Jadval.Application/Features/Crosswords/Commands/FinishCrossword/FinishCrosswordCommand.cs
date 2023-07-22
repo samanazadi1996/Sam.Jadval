@@ -2,14 +2,14 @@
 using Jadval.Application.Wrappers;
 using MediatR;
 
-namespace Jadval.Application.Features.Crosswords.Commands.CheckCrossword
+namespace Jadval.Application.Features.Crosswords.Commands.FinishCrossword
 {
-    public class CheckCrosswordCommand : IRequest<Result<List<CheckCrosswordResponce>>>
+    public class FinishCrosswordCommand : IRequest<Result<long>>
     {
         public long Level { get; set; }
-        public List<CheckCrosswordItem> Items { get; set; }
+        public List<FinishCrosswordItem> Items { get; set; }
     }
-    public class CheckCrosswordItem
+    public class FinishCrosswordItem
     {
         public int Row { get; set; }
         public int Col { get; set; }
