@@ -10,6 +10,8 @@
 
         @foreach (var item in Model.Data)
         {
+            i++;
+
             <div class="p-2 col-3 text-center">
                 @if (item)
                 {
@@ -18,7 +20,7 @@
                         <input value="@i" name="level" type="hidden">
                         <button type="submit" class="btn btn-lg btn-success pb-4 pt-5 px-5">
                             ⭐
-                            <p>@(i + 1)</p>
+                            <p>@(i)</p>
                         </button>
                     </form>
                 }
@@ -26,11 +28,10 @@
                 {
                     <button type="submit" class="btn btn-lg btn-success pb-4 pt-5 px-5">
                         🔒
-                        <p>@(i + 1)</p>
+                        <p>@(i)</p>
                     </button>
                 }
             </div>
-            i++;
         }
     </div>
 

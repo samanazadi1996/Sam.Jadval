@@ -9,7 +9,7 @@ namespace Jadval.Infrastructure.Identity.Models
         {
             Created = DateTime.Now;
             Coins = 100;
-            Level = 0;
+            Level = 1;
         }
         public void AddCoins(long coins)
         {

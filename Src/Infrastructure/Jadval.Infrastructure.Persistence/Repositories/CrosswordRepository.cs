@@ -46,8 +46,8 @@ namespace Jadval.Infrastructure.Persistence.Repositories
 
             foreach (var item in result)
             {
-                finalyResult.Add((requestPageNumber - 1) * requestPageSize + i <= level);
                 i++;
+                finalyResult.Add((requestPageNumber - 1) * requestPageSize + i <= level);
 
             }
 
@@ -58,7 +58,7 @@ namespace Jadval.Infrastructure.Persistence.Repositories
         public async Task<Crossword> GetByLevel(long level)
         {
             var crossword = await crosswords
-                .Skip((int)level)
+                .Skip((int)level - 1)
                 .Take(1)
                 .FirstOrDefaultAsync();
             return crossword;

@@ -44,9 +44,9 @@ namespace Jadval.Infrastructure.Identity.Services
             var maxlevel = await crosswordRepository.GetMaxLevel();
 
             if (user.Level > level)
-                return new Result<long>(user.Level);
+                return new Result<long>(++level);
 
-            if (user.Level+1 >= maxlevel)
+            if (user.Level >= maxlevel)
                 return new Result<long>(user.Level);
 
             user.LevelUp();

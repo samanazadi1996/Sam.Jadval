@@ -6,6 +6,6 @@ namespace Jadval.Application.Features.Crosswords.Queries.GetCrosswordByLevel
 {
     public class GetCrosswordByLevelQuery : IRequest<Result<CrosswordDto>>
     {
-        public long Level { get; set; } = 0;
+        public long Level { get; set; } = 1;
     }
 }
