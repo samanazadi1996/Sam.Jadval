@@ -3,6 +3,7 @@ using Jadval.Application.Interfaces.Repositories;
 using Jadval.Application.Wrappers;
 using Jadval.Domain.Crosswords.Dtos;
 using MediatR;
+using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Linq;
 using System.Text.Json;
@@ -16,16 +17,21 @@ namespace Jadval.Application.Features.Crosswords.Queries.GetCrosswordByLevel
     {
         private readonly ICrosswordRepository crosswordRepository;
         private readonly IAuthenticatedUserService authenticatedUser;
-
-        public GetCrosswordByLevelQueryHandler(IAuthenticatedUserService authenticatedUser, ICrosswordRepository crosswordRepository)
+        private readonly IDistributedCache distributedCache;
+        public GetCrosswordByLevelQueryHandler(IAuthenticatedUserService authenticatedUser, ICrosswordRepository crosswordRepository, IDistributedCache distributedCache)
         {
             this.authenticatedUser = authenticatedUser;
             this.crosswordRepository = crosswordRepository;
+            this.distributedCache = distributedCache;
         }
 
 
         public async Task<Result<CrosswordDto>> Handle(GetCrosswordByLevelQuery request, CancellationToken cancellationToken)
         {
+            var cachestring = await distributedCache.GetStringAsync(GetCacheKey());
+            if (!string.IsNullOrEmpty(cachestring))
+                return JsonSerializer.Deserialize<Result<CrosswordDto>>(cachestring);
+
             var userId = authenticatedUser.UserId;
             var crossword = await crosswordRepository.GetByLevel(request.Level);
             var result = JsonSerializer.Deserialize<CrosswordDto>(crossword.Content);
@@ -36,7 +42,10 @@ namespace Jadval.Application.Features.Crosswords.Queries.GetCrosswordByLevel
 
             } while (IsNotRandomaize());
 
-            return new Result<CrosswordDto>(result);
+            var finalyResult = new Result<CrosswordDto>(result);
+            await distributedCache.SetStringAsync(GetCacheKey(), JsonSerializer.Serialize(finalyResult));
+
+            return finalyResult;
 
             bool IsNum(string input)
             {
@@ -49,15 +58,14 @@ namespace Jadval.Application.Features.Crosswords.Queries.GetCrosswordByLevel
                 {
                     for (int c = 0; c < result.Data[0].Count; c++)
                     {
-                        if (!IsNum(result.Data[r][c]) && result.Data[r][c]== result2.Data[r][c])
+                        if (!IsNum(result.Data[r][c]) && result.Data[r][c] == result2.Data[r][c])
                         {
                             return true;
                         }
                     }
-                }         
+                }
                 return false;
             }
-
             void Randomize()
             {
                 var rnd = new Random();
@@ -82,6 +90,11 @@ namespace Jadval.Application.Features.Crosswords.Queries.GetCrosswordByLevel
                 }
 
             }
+            string GetCacheKey()
+            {
+                return $"{nameof(GetCrosswordByLevelQuery)}-{request.Level}";
+            }
+
         }
     }
 }

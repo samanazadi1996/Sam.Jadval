@@ -43,6 +43,9 @@ namespace Jadval.Infrastructure.Identity.Services
                     UserName = p.UserName,
                     PhoneNumber = p.PhoneNumber,
                     Id = p.Id,
+                    Coins = p.Coins,
+                    Created = p.Created,
+                    Level = p.Level
                 }).ToListAsync();
 
             var result = Tuple.Create(users, await identityContext.Users.CountAsync());

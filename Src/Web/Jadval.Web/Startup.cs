@@ -34,7 +34,7 @@ namespace Jadval.Web
             services.AddApplicationLayer(Configuration);
             services.AddPersistenceInfrastructure(Configuration);
             services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
-
+            services.AddDistributedMemoryCache();
             services.AddIdentityInfrastructure(Configuration);
             services.AddIdentityCookie(Configuration);
 
