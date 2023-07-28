@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Jadval.Application.Interfaces.Repositories;
+using Jadval.Application.Parameters;
+using Jadval.Domain.Crosswords.Entities;
+using Jadval.Infrastructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Jadval.Application.Interfaces.Repositories;
-using Jadval.Domain.Crosswords.Dtos;
-using Jadval.Domain.Crosswords.Entities;
-using Jadval.Infrastructure.Persistence.Contexts;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Jadval.Infrastructure.Persistence.Repositories
 {
@@ -26,7 +25,7 @@ namespace Jadval.Infrastructure.Persistence.Repositories
             return query;
 
         }
-        public async Task<Tuple<List<bool>, int>> GetPaged(int requestPageNumber, int requestPageSize, long level)
+        public async Task<Tuple<List<bool>, int>> GetPaged(PagenationRequestParameter requestParameter, long level)
         {
             var query = crosswords
                 .OrderByDescending(p => p.Created)
@@ -34,12 +33,7 @@ namespace Jadval.Infrastructure.Persistence.Repositories
 
             var count = query.Count();
 
-
-            var result = await query
-                .Skip((requestPageNumber - 1) * requestPageSize)
-                .Take(requestPageSize)
-                .Select(p => 0)
-                .ToListAsync();
+            var result = await Paged(query, requestParameter).Select(p => true).ToListAsync();
 
             var finalyResult = new List<bool>();
             var i = 0;
@@ -47,7 +41,7 @@ namespace Jadval.Infrastructure.Persistence.Repositories
             foreach (var item in result)
             {
                 i++;
-                finalyResult.Add((requestPageNumber - 1) * requestPageSize + i <= level);
+                finalyResult.Add((requestParameter.PageNumber - 1) * requestParameter.PageSize + i <= level);
 
             }
 
