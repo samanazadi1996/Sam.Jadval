@@ -16,6 +16,6 @@
         {
             this.PageNumber = pageNumber < 1 ? 1 : pageNumber;
             this.PageSize = pageSize;
-        }and orde
+        }
     }
 }
