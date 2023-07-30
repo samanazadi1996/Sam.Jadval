@@ -27,9 +27,7 @@ namespace Jadval.Infrastructure.Persistence.Repositories
         }
         public async Task<Tuple<List<bool>, int>> GetPaged(PagenationRequestParameter requestParameter, long level)
         {
-            var query = crosswords
-                .OrderByDescending(p => p.Created)
-                .AsQueryable();
+            var query = crosswords.AsQueryable();
 
             var count = query.Count();
 

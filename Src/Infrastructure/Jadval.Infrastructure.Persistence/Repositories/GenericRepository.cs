@@ -50,8 +50,6 @@ namespace Jadval.Infrastructure.Persistence.Repositories
 
         protected IQueryable<T> Paged(IQueryable<T> query, PagenationRequestParameter requestParameter)
         {
-            var columnName = requestParameter.Order ?? "Created";
-
             query = OrderByColumn(query);
 
             query = query
@@ -61,8 +59,11 @@ namespace Jadval.Infrastructure.Persistence.Repositories
             return query;
             IQueryable<T> OrderByColumn(IQueryable<T> collection)
             {
+                var columnName = requestParameter.Order ?? "Created";
 
                 PropertyInfo prop = typeof(T).GetProperty(columnName);
+
+                if (prop is null) return collection;
 
                 ParameterExpression param = Expression.Parameter(typeof(T), "x");
 
