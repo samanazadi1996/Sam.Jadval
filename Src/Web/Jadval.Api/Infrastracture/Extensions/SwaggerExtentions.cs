@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Routing;
@@ -13,6 +14,7 @@ namespace Jadval.Api.Infrastracture.Extensions
 {
     public static class SwaggerExtentions
     {
+        private const string swaggerAuthorizationUrl = "/SwaggerAuthorization.js";
         public static IApplicationBuilder UseSwaggerWithVersioning(this IApplicationBuilder app)
         {
             IServiceProvider services = app.ApplicationServices;
@@ -25,7 +27,7 @@ namespace Jadval.Api.Infrastracture.Extensions
                 foreach (var description in provider.ApiVersionDescriptions)
                 {
                     options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-                    options.InjectJavascript("/SwaggerAuthorization.js");
+                    options.InjectJavascript(swaggerAuthorizationUrl);
                 }
             });
 
@@ -81,5 +83,27 @@ namespace Jadval.Api.Infrastracture.Extensions
 
             return services;
         }
+        public static void AddSwaggerAuthorization(this IEndpointRouteBuilder endpoints)
+        {
+            endpoints.MapGet(swaggerAuthorizationUrl, async context =>
+            {
+                await context.Response.WriteAsync(temp());
+                string temp()
+                {
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "Files", "SwaggerAuthorization.js");
+                    return File.ReadAllText(path);
+                }
+            });
+        }
+        //public static void AddSwaggerAuthorization(this IEndpointRouteBuilder endpoints)
+        //{
+        //    endpoints.Map("/SwaggerAuthorization.js", () => temp());
+        //    string temp()
+        //    {
+        //        var path = Path.Combine(Directory.GetCurrentDirectory(), "Files", "SwaggerAuthorization.js");
+        //        return File.ReadAllText(path);
+        //    }
+        //}
+
     }
 }

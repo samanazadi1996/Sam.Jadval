@@ -96,6 +96,7 @@ namespace Jadval.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.AddSwaggerAuthorization();
             });
         }
     }
