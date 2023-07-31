@@ -13,19 +13,22 @@ namespace Jadval.Infrastructure.Persistence.Seeds
         {
             var dir = Path.Combine(Directory.GetCurrentDirectory(), "SqlSeedData");
 
-            foreach (var item in Directory.GetFiles(dir))
+            if (Directory.Exists(dir))
             {
-                var command = File.ReadAllText(item);
-                try
+                foreach (var item in Directory.GetFiles(dir))
                 {
-                   await applicationDbContext.Database.ExecuteSqlRawAsync(command);
+                    var command = File.ReadAllText(item);
+                    try
+                    {
+                        await applicationDbContext.Database.ExecuteSqlRawAsync(command);
+                    }
+                    catch
+                    {
+                    }
                 }
-                catch
-                {
-                }
-            }
 
-          await  applicationDbContext.SaveChangesAsync();
+                await applicationDbContext.SaveChangesAsync();
+            }
         }
     }
 }

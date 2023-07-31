@@ -7,19 +7,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{4FE629B7-1D8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{AA9045D7-A19B-47FE-B657-83EEA23C6AFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jadval.Web", "Src\Web\Jadval.Web\Jadval.Web.csproj", "{F0FF510C-F0E5-4C6D-9B16-869BDC521571}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jadval.Web", "Src\Web\Jadval.Web\Jadval.Web.csproj", "{F0FF510C-F0E5-4C6D-9B16-869BDC521571}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{112DF2CB-F93C-4063-880C-3262168DD43C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jadval.Application", "Src\Core\Jadval.Application\Jadval.Application.csproj", "{76B969A6-564D-43D8-A9D5-7BD40D963F1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jadval.Application", "Src\Core\Jadval.Application\Jadval.Application.csproj", "{76B969A6-564D-43D8-A9D5-7BD40D963F1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jadval.Domain", "Src\Core\Jadval.Domain\Jadval.Domain.csproj", "{53EEEECE-CDB8-42F8-9044-E3B09C26D03A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jadval.Domain", "Src\Core\Jadval.Domain\Jadval.Domain.csproj", "{53EEEECE-CDB8-42F8-9044-E3B09C26D03A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{74763D1D-F74F-4992-AF13-070F99A6C12D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jadval.Infrastructure.Identity", "Src\Infrastructure\Jadval.Infrastructure.Identity\Jadval.Infrastructure.Identity.csproj", "{F0DB9E0E-AE90-4ECA-8D11-7EB7BB78C884}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jadval.Infrastructure.Identity", "Src\Infrastructure\Jadval.Infrastructure.Identity\Jadval.Infrastructure.Identity.csproj", "{F0DB9E0E-AE90-4ECA-8D11-7EB7BB78C884}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jadval.Infrastructure.Persistence", "Src\Infrastructure\Jadval.Infrastructure.Persistence\Jadval.Infrastructure.Persistence.csproj", "{72870415-0F2C-42F0-ADB6-ECDDCD8EE52D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jadval.Infrastructure.Persistence", "Src\Infrastructure\Jadval.Infrastructure.Persistence\Jadval.Infrastructure.Persistence.csproj", "{72870415-0F2C-42F0-ADB6-ECDDCD8EE52D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jadval.Api", "Src\Web\Jadval.Api\Jadval.Api.csproj", "{FC848E18-EBCE-49F8-8A87-E09F4BB4D6BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{72870415-0F2C-42F0-ADB6-ECDDCD8EE52D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72870415-0F2C-42F0-ADB6-ECDDCD8EE52D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72870415-0F2C-42F0-ADB6-ECDDCD8EE52D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC848E18-EBCE-49F8-8A87-E09F4BB4D6BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC848E18-EBCE-49F8-8A87-E09F4BB4D6BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC848E18-EBCE-49F8-8A87-E09F4BB4D6BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC848E18-EBCE-49F8-8A87-E09F4BB4D6BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{74763D1D-F74F-4992-AF13-070F99A6C12D} = {4FE629B7-1D8E-4BB1-B1CD-2128DFE9863B}
 		{F0DB9E0E-AE90-4ECA-8D11-7EB7BB78C884} = {74763D1D-F74F-4992-AF13-070F99A6C12D}
 		{72870415-0F2C-42F0-ADB6-ECDDCD8EE52D} = {74763D1D-F74F-4992-AF13-070F99A6C12D}
+		{FC848E18-EBCE-49F8-8A87-E09F4BB4D6BD} = {AA9045D7-A19B-47FE-B657-83EEA23C6AFF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0C21E7F3-A8C9-4A17-BC07-B19128942C06}

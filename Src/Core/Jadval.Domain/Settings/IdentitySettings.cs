@@ -9,5 +9,4 @@
         public bool PasswordRequireLowercase { get; set; }
         public bool RequireUniqueEmail { get; set; }
     }
-
 }
