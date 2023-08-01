@@ -47,43 +47,5 @@ namespace Jadval.Infrastructure.Persistence.Repositories
                  .Set<T>()
                  .ToListAsync();
         }
-
-        protected IQueryable<T> Paged(IQueryable<T> query, PagenationRequestParameter requestParameter)
-        {
-            query = OrderByColumn(query);
-
-            query = query
-                .Skip((requestParameter.PageNumber - 1) * requestParameter.PageSize)
-                .Take(requestParameter.PageSize);
-
-            return query;
-            IQueryable<T> OrderByColumn(IQueryable<T> collection)
-            {
-                var columnName = requestParameter.Order ?? "Created";
-
-                PropertyInfo prop = typeof(T).GetProperty(columnName);
-
-                if (prop is null) return collection;
-
-                ParameterExpression param = Expression.Parameter(typeof(T), "x");
-
-                MemberExpression propertyExpression = Expression.Property(param, prop);
-
-                LambdaExpression lambda = Expression.Lambda(propertyExpression, param);
-
-                string methodName = requestParameter.Desc ? "OrderByDescending" : "OrderBy";
-
-                MethodCallExpression orderByExpression = Expression.Call(
-                    typeof(Queryable),
-                    methodName,
-                    new[] { typeof(T), prop.PropertyType },
-                    collection.Expression,
-                    Expression.Quote(lambda)
-                );
-
-                return collection.Provider.CreateQuery<T>(orderByExpression);
-
-            }
-        }
     }
 }

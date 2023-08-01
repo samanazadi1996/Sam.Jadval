@@ -13,8 +13,8 @@ namespace Jadval.Api.Controllers.v1
 {
     public class CrosswordController : BaseApiController
     {
-        [HttpGet, Authorize]
-        public async Task<PagedResponse<bool>> GetPagedListCrossword([FromQuery] GetPagedListCrosswordQuery query)
+        [HttpPost, Authorize]
+        public async Task<PagedResponse<bool>> GetPagedListCrossword(GetPagedListCrosswordQuery query)
             => await Mediator.Send(query);
 
         [HttpPost, Authorize]

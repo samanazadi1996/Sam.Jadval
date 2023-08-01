@@ -2,6 +2,7 @@
 using Jadval.Application.Parameters;
 using Jadval.Domain.Crosswords.Entities;
 using Jadval.Infrastructure.Persistence.Contexts;
+using Jadval.Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,9 @@ namespace Jadval.Infrastructure.Persistence.Repositories
 
             var count = query.Count();
 
-            var result = await Paged(query, requestParameter).Select(p => true).ToListAsync();
+            var result = await query.FilteredAndOrderedAndPaged(requestParameter)
+                .Select(p => true)
+                .ToListAsync();
 
             var finalyResult = new List<bool>();
             var i = 0;
