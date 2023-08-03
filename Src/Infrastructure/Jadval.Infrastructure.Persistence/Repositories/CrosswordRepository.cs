@@ -49,6 +49,17 @@ namespace Jadval.Infrastructure.Persistence.Repositories
 
             return new Tuple<List<bool>, int>(finalyResult, count);
         }
+        public async Task<Tuple<List<Crossword>, int>> GetPaged2(PagenationRequestParameter requestParameter, long level)
+        {
+            var query = crosswords.AsQueryable();
+
+            var count = query.Count();
+
+            var result = await query.FilteredAndOrderedAndPaged(requestParameter)
+                .ToListAsync();
+
+            return new Tuple<List<Crossword>, int>(result, count);
+        }
 
         public async Task<Crossword> GetByLevel(long level)
         {

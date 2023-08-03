@@ -22,11 +22,22 @@ namespace Jadval.Application.Parameters
     public class PagenationFilterParameter
     {
         public string PropertyName { get; set; }
+        public OperationTypes Operation { get; set; }
         public string PropertyValue { get; set; }
     }
     public class PagenationOrderParameter
     {
         public string PropertyName { get; set; }
         public bool Descending { get; set; }
+    }
+    public enum OperationTypes
+    {
+        Equal, Contains, StartWith,
+        EndsWith,
+        NotEqual,
+        LessThan,
+        LessThanOrEqualTo,
+        GreaterThan,
+        GreaterThanOrEqualTo,
     }
 }
