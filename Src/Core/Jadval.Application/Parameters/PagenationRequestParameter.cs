@@ -32,9 +32,11 @@ namespace Jadval.Application.Parameters
     }
     public enum OperationTypes
     {
-        Equal, Contains, StartWith,
-        EndsWith,
+        Equal,
         NotEqual,
+        Contains,
+        StartWith,
+        EndsWith,
         LessThan,
         LessThanOrEqualTo,
         GreaterThan,

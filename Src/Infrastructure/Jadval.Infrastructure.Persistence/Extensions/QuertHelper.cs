@@ -93,23 +93,23 @@ namespace Jadval.Infrastructure.Persistence.Extensions
                         }
                         else if (prop.PropertyType.Name.ToLower() == "bool")
                         {
-                            var val = Convert.ToBoolean(propertyValue);
+                            Convert.ToBoolean(propertyValue);
                             queries.Add(OperationTypes.Equal, $"{prop.Name} == {propertyValue}");
                             queries.Add(OperationTypes.NotEqual, $"{prop.Name} != {propertyValue}");
                         }
                         else if (prop.PropertyType.Name.ToLower() == "DateTime".ToLower())
                         {
-                            var val = Convert.ToDateTime(propertyValue);
+                            Convert.ToDateTime(propertyValue);
                             queries.Add(OperationTypes.Equal, $"{prop.Name} == Convert.ToDateTime(\"{propertyValue}\")");
                             queries.Add(OperationTypes.NotEqual, $"{prop.Name} != Convert.ToDateTime(\"{propertyValue}\")");
-                            queries.Add(OperationTypes.LessThan, $"{prop.Name} < {propertyValue}");
+                            queries.Add(OperationTypes.LessThan, $"{prop.Name} < Convert.ToDateTime(\"{propertyValue}\")");
                             queries.Add(OperationTypes.LessThanOrEqualTo, $"{prop.Name} <= Convert.ToDateTime(\"{propertyValue}\")");
                             queries.Add(OperationTypes.GreaterThan, $"{prop.Name} > Convert.ToDateTime(\"{propertyValue}\")");
                             queries.Add(OperationTypes.GreaterThanOrEqualTo, $"{prop.Name} >= Convert.ToDateTime(\"{propertyValue}\")");
                         }
                         else if (prop.PropertyType.Name.ToLower().StartsWith("int"))
                         {
-                            var val = Convert.ToInt64(propertyValue);
+                            Convert.ToInt64(propertyValue);
                             queries.Add(OperationTypes.Equal, $"{prop.Name} == {propertyValue}");
                             queries.Add(OperationTypes.NotEqual, $"{prop.Name} != {propertyValue}");
                             queries.Add(OperationTypes.LessThan, $"{prop.Name} < {propertyValue}");
