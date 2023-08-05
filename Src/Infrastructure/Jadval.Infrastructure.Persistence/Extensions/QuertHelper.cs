@@ -83,42 +83,42 @@ namespace Jadval.Infrastructure.Persistence.Extensions
                     {
                         var queries = new Dictionary<OperationTypes, string>();
 
-                        if (prop.PropertyType.Name.ToLower() == "string")
+                        if (prop.PropertyType.Name == nameof(String))
                         {
-                            queries.Add(OperationTypes.Equal, $"{prop.Name} == \"{propertyValue}\"");
-                            queries.Add(OperationTypes.NotEqual, $"{prop.Name} != \"{propertyValue}\"");
-                            queries.Add(OperationTypes.Contains, $"{prop.Name}.Contains(\"{propertyValue}\")");
-                            queries.Add(OperationTypes.StartWith, $"{prop.Name}.StartsWith(\"{propertyValue}\")");
-                            queries.Add(OperationTypes.EndsWith, $"{prop.Name}.EndsWith(\"{propertyValue}\")");
+                            queries.Add(OperationTypes.Equal, $" == \"{propertyValue}\"");
+                            queries.Add(OperationTypes.NotEqual, $" != \"{propertyValue}\"");
+                            queries.Add(OperationTypes.Contains, $".Contains(\"{propertyValue}\")");
+                            queries.Add(OperationTypes.StartWith, $".StartsWith(\"{propertyValue}\")");
+                            queries.Add(OperationTypes.EndsWith, $".EndsWith(\"{propertyValue}\")");
                         }
-                        else if (prop.PropertyType.Name.ToLower() == "bool")
+                        else if (prop.PropertyType.Name == nameof(Boolean))
                         {
                             Convert.ToBoolean(propertyValue);
-                            queries.Add(OperationTypes.Equal, $"{prop.Name} == {propertyValue}");
-                            queries.Add(OperationTypes.NotEqual, $"{prop.Name} != {propertyValue}");
+                            queries.Add(OperationTypes.Equal, $" == {propertyValue}");
+                            queries.Add(OperationTypes.NotEqual, $" != {propertyValue}");
                         }
-                        else if (prop.PropertyType.Name.ToLower() == "DateTime".ToLower())
+                        else if (prop.PropertyType.Name == nameof(DateTime))
                         {
                             Convert.ToDateTime(propertyValue);
-                            queries.Add(OperationTypes.Equal, $"{prop.Name} == Convert.ToDateTime(\"{propertyValue}\")");
-                            queries.Add(OperationTypes.NotEqual, $"{prop.Name} != Convert.ToDateTime(\"{propertyValue}\")");
-                            queries.Add(OperationTypes.LessThan, $"{prop.Name} < Convert.ToDateTime(\"{propertyValue}\")");
-                            queries.Add(OperationTypes.LessThanOrEqualTo, $"{prop.Name} <= Convert.ToDateTime(\"{propertyValue}\")");
-                            queries.Add(OperationTypes.GreaterThan, $"{prop.Name} > Convert.ToDateTime(\"{propertyValue}\")");
-                            queries.Add(OperationTypes.GreaterThanOrEqualTo, $"{prop.Name} >= Convert.ToDateTime(\"{propertyValue}\")");
+                            queries.Add(OperationTypes.Equal, $" == Convert.ToDateTime(\"{propertyValue}\")");
+                            queries.Add(OperationTypes.NotEqual, $" != Convert.ToDateTime(\"{propertyValue}\")");
+                            queries.Add(OperationTypes.LessThan, $" < Convert.ToDateTime(\"{propertyValue}\")");
+                            queries.Add(OperationTypes.LessThanOrEqual, $" <= Convert.ToDateTime(\"{propertyValue}\")");
+                            queries.Add(OperationTypes.GreaterThan, $" > Convert.ToDateTime(\"{propertyValue}\")");
+                            queries.Add(OperationTypes.GreaterThanOrEqual, $" >= Convert.ToDateTime(\"{propertyValue}\")");
                         }
                         else if (prop.PropertyType.Name.ToLower().StartsWith("int"))
                         {
                             Convert.ToInt64(propertyValue);
-                            queries.Add(OperationTypes.Equal, $"{prop.Name} == {propertyValue}");
-                            queries.Add(OperationTypes.NotEqual, $"{prop.Name} != {propertyValue}");
-                            queries.Add(OperationTypes.LessThan, $"{prop.Name} < {propertyValue}");
-                            queries.Add(OperationTypes.LessThanOrEqualTo, $"{prop.Name} <= {propertyValue}");
-                            queries.Add(OperationTypes.GreaterThan, $"{prop.Name} > {propertyValue}");
-                            queries.Add(OperationTypes.GreaterThanOrEqualTo, $"{prop.Name} >= {propertyValue}");
+                            queries.Add(OperationTypes.Equal, $" == {propertyValue}");
+                            queries.Add(OperationTypes.NotEqual, $" != {propertyValue}");
+                            queries.Add(OperationTypes.LessThan, $" < {propertyValue}");
+                            queries.Add(OperationTypes.LessThanOrEqual, $" <= {propertyValue}");
+                            queries.Add(OperationTypes.GreaterThan, $" > {propertyValue}");
+                            queries.Add(OperationTypes.GreaterThanOrEqual, $" >= {propertyValue}");
                         }
 
-                        return queries.FirstOrDefault(p => p.Key == operation).Value;
+                        return queries.TryGetValue(operation, out string value) ? prop.Name + value : null;
 
                     }
                     catch

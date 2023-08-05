@@ -38,8 +38,8 @@ namespace Jadval.Application.Parameters
         StartWith,
         EndsWith,
         LessThan,
-        LessThanOrEqualTo,
+        LessThanOrEqual,
         GreaterThan,
-        GreaterThanOrEqualTo,
+        GreaterThanOrEqual,
     }
 }
