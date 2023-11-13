@@ -2,8 +2,10 @@
 using Jadval.Application.Features.Crosswords.Commands.FinishCrossword;
 using Jadval.Application.Features.Crosswords.Queries.GetCrosswordByLevel;
 using Jadval.Application.Features.Crosswords.Queries.GetPagedListCrossword;
+using Jadval.Application.Features.Crosswords.Queries.GetPagedListCrossword2;
 using Jadval.Application.Wrappers;
 using Jadval.Domain.Crosswords.Dtos;
+using Jadval.Domain.Crosswords.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -15,6 +17,10 @@ namespace Jadval.Api.Controllers.v1
     {
         [HttpPost, Authorize]
         public async Task<PagedResponse<bool>> GetPagedListCrossword(GetPagedListCrosswordQuery query)
+            => await Mediator.Send(query);
+
+        [HttpPost, Authorize]
+        public async Task<PagedResponse<Crossword>> GetPagedListCrossword2(GetPagedListCrossword2Query query)
             => await Mediator.Send(query);
 
         [HttpPost, Authorize]

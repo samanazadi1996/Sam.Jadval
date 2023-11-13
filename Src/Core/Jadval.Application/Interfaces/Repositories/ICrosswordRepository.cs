@@ -9,6 +9,7 @@ namespace Jadval.Application.Interfaces.Repositories
     public interface ICrosswordRepository : IGenericRepository<Crossword>
     {
         Task<Tuple<List<bool>, int>> GetPaged(PagenationRequestParameter requestParameter, long level);
+        Task<Tuple<List<Crossword>, int>> GetPaged2(PagenationRequestParameter requestParameter, long level);
         Task<Crossword> GetByLevel(long level);
         Task<long> GetMaxLevel();
     }
